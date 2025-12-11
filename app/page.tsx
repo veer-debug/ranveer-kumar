@@ -13,6 +13,7 @@ import ContactSection from "@/components/contact-section"
 import ResumeSection from "@/components/resume-section"
 import AnimatedCursor from "@/components/animated-cursor"
 import SmoothScrollProvider from "@/components/smooth-scroll-provider"
+import Chatbot from "@/components/chatbot"
 
 
 export default function Portfolio() {
@@ -116,6 +117,9 @@ export default function Portfolio() {
           className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-blue-500 to-teal-500 z-50"
           style={{ scaleX: scrollYProgress, transformOrigin: "0%" }}
         />
+
+        {/* Chatbot */}
+        <Chatbot />
       </div>
     </SmoothScrollProvider>
   )
