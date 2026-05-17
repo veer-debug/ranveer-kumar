@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import Link from "next/link"
 import { motion } from "framer-motion"
 import { gsap } from "gsap"
 import { TextPlugin } from "gsap/TextPlugin"
@@ -235,7 +236,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 3 }}
-          className="flex flex-col sm:flex-row gap-6 justify-center"
+          className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6 justify-center"
         >
           <motion.button
             className="group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-xl text-white font-semibold overflow-hidden"
@@ -252,10 +253,24 @@ export default function HeroSection() {
                View My Work
             </span>
           </motion.button>
+          <Link href="/blogs" className="inline-block">
+            <motion.span
+              className="group relative flex px-8 py-4 border-2 border-purple-400/50 rounded-xl text-white font-semibold backdrop-blur-sm bg-gray-900/30 overflow-hidden"
+              whileHover={{
+                scale: 1.05,
+                borderColor: "rgba(168, 85, 247, 1)",
+                boxShadow: "0 0 30px rgba(168, 85, 247, 0.3)",
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <span className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <span className="relative z-10 flex items-center gap-2">Blogs</span>
+            </motion.span>
+          </Link>
           <motion.button
             className="group relative px-8 py-4 border-2 border-cyan-400/50 rounded-xl text-white font-semibold backdrop-blur-sm bg-gray-900/30 overflow-hidden"
-            whileHover={{ 
-              scale: 1.05, 
+            whileHover={{
+              scale: 1.05,
               borderColor: "rgba(6, 182, 212, 1)",
               boxShadow: "0 0 30px rgba(6, 182, 212, 0.3)"
             }}

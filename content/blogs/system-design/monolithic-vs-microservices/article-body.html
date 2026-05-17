@@ -1,0 +1,220 @@
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">Ranveer<span>.</span>dev</a>
+  <div class="nav-meta">
+    <span class="nav-tag">System Design</span>
+    <span>10 min read</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <p class="hero-eyebrow">Architecture · May 2026</p>
+  <h1>Monolith vs <em>Microservices</em> — and the painful truth about switching</h1>
+  <p class="hero-sub">
+    Every team reaches a point where they ask: "Should we break this apart?" Here's the honest answer — including the problems nobody warns you about, and the solutions that actually work.
+  </p>
+  <div class="hero-byline">
+    <div class="avatar-sm">RK</div>
+    <div class="byline-text">
+      <span class="byline-name">Ranveer Kumar</span> · Backend Engineer &amp; System Design Enthusiast
+    </div>
+  </div>
+</header>
+
+<!-- CONTENT -->
+<main class="layout">
+
+  <div class="prose">
+    <p>
+      I've worked on codebases that started as clean, well-structured monoliths — and watched them slowly become unmaintainable as the team and product grew. I've also seen teams jump to microservices too early and create something far worse: a <strong>distributed monolith</strong> — all the complexity of a distributed system with none of the benefits.
+    </p>
+    <p>
+      The debate between monolith and microservices is real, but it's often framed wrong. It's not about which architecture is <em>better</em>. It's about which is right for your team, your stage, and your problem.
+    </p>
+  </div>
+
+  <!-- VERSUS -->
+  <h2>The honest comparison</h2>
+
+  <div class="versus">
+    <div class="vs-col left">
+      <div class="vs-heading">🧱 Monolith</div>
+      <ul class="vs-list">
+        <li><span class="vs-check">✓</span> Simple to build and deploy</li>
+        <li><span class="vs-check">✓</span> Easy to debug (single process)</li>
+        <li><span class="vs-check">✓</span> Low operational overhead</li>
+        <li><span class="vs-check">✓</span> Fast to iterate early on</li>
+        <li><span class="vs-check">✗</span> Scales as one unit — costly</li>
+        <li><span class="vs-check">✗</span> Tight coupling grows over time</li>
+        <li><span class="vs-check">✗</span> Long build &amp; deploy cycles</li>
+        <li><span class="vs-check">✗</span> One bug can take down everything</li>
+      </ul>
+    </div>
+    <div class="vs-col right">
+      <div class="vs-heading">⚙️ Microservices</div>
+      <ul class="vs-list">
+        <li><span class="vs-check">✓</span> Independent scaling per service</li>
+        <li><span class="vs-check">✓</span> Team autonomy &amp; ownership</li>
+        <li><span class="vs-check">✓</span> Fault isolation</li>
+        <li><span class="vs-check">✓</span> Deploy services independently</li>
+        <li><span class="vs-check">✗</span> High infrastructure complexity</li>
+        <li><span class="vs-check">✗</span> Distributed debugging is hard</li>
+        <li><span class="vs-check">✗</span> Network latency &amp; failures</li>
+        <li><span class="vs-check">✗</span> Needs strong DevOps maturity</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>
+      The monolith often gets unfairly dismissed. Instagram ran on a monolith at massive scale. Stack Overflow still does. The right architecture is the one that fits your constraints — not the one with the most conference talks.
+    </p>
+  </div>
+
+  <!-- PROBLEMS -->
+  <h2>The migration problems nobody warns you about</h2>
+  <div class="prose">
+    <p>
+      So you've decided the monolith has served its purpose and it's time to move. Here's what you'll actually run into — and why most migrations take 3x longer than planned.
+    </p>
+  </div>
+
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="card-num">01</div>
+      <div class="card-title">Tight coupling &amp; tangled dependencies</div>
+      <div class="card-body">Shared databases, in-process function calls, and "God classes" make it nearly impossible to draw clean service boundaries. What looks like two separate concerns often shares 40 tables.</div>
+    </div>
+    <div class="problem-card">
+      <div class="card-num">02</div>
+      <div class="card-title">No clear domain boundaries</div>
+      <div class="card-body">Without proper domain modeling upfront, you end up with micro-services that still call each other synchronously for every request — a distributed monolith. All the pain, none of the gain.</div>
+    </div>
+    <div class="problem-card">
+      <div class="card-num">03</div>
+      <div class="card-title">The shared database problem</div>
+      <div class="card-body">Multiple services reading and writing to the same database tables destroys service independence. Schema changes become terrifying. This is the #1 reason migrations stall.</div>
+    </div>
+    <div class="problem-card">
+      <div class="card-num">04</div>
+      <div class="card-title">Network latency &amp; partial failures</div>
+      <div class="card-body">What was a function call (microseconds) is now an HTTP or gRPC call (milliseconds) that can fail, time out, or return stale data. Cascading failures are a real threat now.</div>
+    </div>
+    <div class="problem-card">
+      <div class="card-num">05</div>
+      <div class="card-title">Testing &amp; observability gaps</div>
+      <div class="card-body">Integration testing complexity grows exponentially. Tracing a single user request across 10 services without proper tooling is like debugging blindfolded. Teams often skip this — and regret it.</div>
+    </div>
+    <div class="problem-card">
+      <div class="card-num">06</div>
+      <div class="card-title">Operational overhead explosion</div>
+      <div class="card-body">Suddenly you need Kubernetes, service meshes, per-service CI/CD pipelines, secrets management, and more — often before the team is culturally or technically ready for it.</div>
+    </div>
+  </div>
+
+  <blockquote>
+    <p>"The hardest part of microservices isn't the technology. It's the organizational and domain discipline it demands before you write a single line."</p>
+  </blockquote>
+
+  <!-- SOLUTIONS -->
+  <h2>Solutions that actually work</h2>
+  <div class="prose">
+    <p>
+      These aren't silver bullets — they're battle-tested patterns that reduce risk and give migrations a real chance of success.
+    </p>
+  </div>
+
+  <div class="solution-list">
+    <div class="solution-item">
+      <div class="sol-icon">🗺️</div>
+      <div>
+        <div class="sol-title">Start with Domain-Driven Design (DDD)</div>
+        <div class="sol-body">Define Bounded Contexts first. Let your domain guide where service boundaries fall — not your org chart, not your gut feeling. Spend weeks on this before touching code. It's worth it.
+          <br><span class="sol-tag">Bounded Contexts</span><span class="sol-tag">Ubiquitous Language</span><span class="sol-tag">Aggregates</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-item">
+      <div class="sol-icon">🪓</div>
+      <div>
+        <div class="sol-title">Strangler Fig Pattern</div>
+        <div class="sol-body">Don't rewrite everything. Incrementally replace parts of the monolith — new features go into services, old ones migrate over time. The monolith still runs in production. You reduce risk dramatically.
+          <br><span class="sol-tag">Incremental migration</span><span class="sol-tag">Zero downtime</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-item">
+      <div class="sol-icon">📬</div>
+      <div>
+        <div class="sol-title">Event-Driven Communication</div>
+        <div class="sol-body">Replace synchronous inter-service calls with async events. Services publish and subscribe to events — they become truly independent. A failure in one service no longer cascades immediately to others.
+          <br><span class="sol-tag">Kafka</span><span class="sol-tag">RabbitMQ</span><span class="sol-tag">Event Sourcing</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-item">
+      <div class="sol-icon">🗃️</div>
+      <div>
+        <div class="sol-title">Database Per Service</div>
+        <div class="sol-body">Each service owns its data. No shared tables. Use the Saga pattern or eventual consistency for cross-service transactions instead of distributed DB joins. Hard to implement, impossible to skip.
+          <br><span class="sol-tag">Saga Pattern</span><span class="sol-tag">CQRS</span><span class="sol-tag">Eventual Consistency</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-item">
+      <div class="sol-icon">🔭</div>
+      <div>
+        <div class="sol-title">Invest in Observability from Day One</div>
+        <div class="sol-body">Distributed tracing, centralized logging, and metrics are not optional extras — they are infrastructure. Set these up before the first service hits production, not after the first incident.
+          <br><span class="sol-tag">Jaeger</span><span class="sol-tag">Zipkin</span><span class="sol-tag">ELK Stack</span><span class="sol-tag">Prometheus</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-item">
+      <div class="sol-icon">🛡️</div>
+      <div>
+        <div class="sol-title">Circuit Breakers &amp; Retry Logic</div>
+        <div class="sol-body">One failing service should never bring down your entire system. Implement circuit breakers to fail fast and gracefully. Add retries with exponential backoff for transient failures.
+          <br><span class="sol-tag">Resilience4j</span><span class="sol-tag">Hystrix</span><span class="sol-tag">Exponential Backoff</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict">
+    <div class="verdict-label">The bottom line</div>
+    <p>
+      <strong>Microservices are not a destination — they're a tradeoff.</strong> You're trading deployment simplicity for operational complexity. You're trading "easy to understand" for "easy to scale independently."
+    </p>
+    <p>
+      If you have 3 developers, a monolith is probably your best friend. If you're running at Netflix or Uber scale with 50+ independent teams — you probably already know what you need.
+    </p>
+    <p>
+      <strong>The question to ask isn't "Monolith or Microservices?" — it's "Are we solving complexity, or just moving it around?"</strong>
+    </p>
+  </div>
+
+  <div class="prose">
+    <p>
+      Have you been through a monolith-to-microservices migration? I'd love to hear what the hardest part was — every codebase has its own surprises. Reach out on LinkedIn or drop a comment below.
+    </p>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Ranveer Kumar</span>
+  <div class="footer-tags">
+    <span class="ftag">#SystemDesign</span>
+    <span class="ftag">#Microservices</span>
+    <span class="ftag">#SoftwareArchitecture</span>
+    <span class="ftag">#BackendDev</span>
+    <span class="ftag">#DDD</span>
+    <span class="ftag">#DevOps</span>
+  </div>
+</footer>
