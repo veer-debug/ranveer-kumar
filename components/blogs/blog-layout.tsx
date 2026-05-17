@@ -63,7 +63,7 @@ export default function BlogLayout({
             }}
           />
         ))}
-      </motion.div>
+      </div>
 
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -80,7 +80,7 @@ export default function BlogLayout({
         </Link>
       </motion.div>
 
-      <div className="relative z-20">{children}</motion.div>
+      <div className="relative z-20">{children}</div>
     </motion.div>
   )
 }

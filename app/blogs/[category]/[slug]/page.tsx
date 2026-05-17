@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation"
 import BlogPostPage from "./blog-post-client"
+import { getCustomArticle } from "@/content/blogs/custom-articles-server"
 import {
   blogCategories,
   getAllPostParams,
@@ -27,6 +28,11 @@ export default async function PostPage({ params }: PageProps) {
 
   if (!post) {
     notFound()
+  }
+
+  const CustomArticle = getCustomArticle(category.id as BlogCategoryId, slug)
+  if (CustomArticle) {
+    return <CustomArticle />
   }
 
   return <BlogPostPage category={category} post={post} />

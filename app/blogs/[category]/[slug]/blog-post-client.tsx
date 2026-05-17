@@ -4,7 +4,6 @@ import { motion } from "framer-motion"
 import { Calendar } from "lucide-react"
 import BlogLayout from "@/components/blogs/blog-layout"
 import BlogContent from "@/components/blogs/blog-content"
-import { getCustomArticle } from "@/content/blogs/custom-articles"
 import type { BlogCategory, BlogPost } from "@/lib/blogs/types"
 
 interface BlogPostPageProps {
@@ -13,12 +12,6 @@ interface BlogPostPageProps {
 }
 
 export default function BlogPostPage({ category, post }: BlogPostPageProps) {
-  const CustomArticle = getCustomArticle(category.id, post.slug)
-
-  if (CustomArticle) {
-    return <CustomArticle />
-  }
-
   return (
     <BlogLayout backHref={`/blogs/${category.id}`} backLabel={category.title}>
       <article className="px-4 py-12 pb-24 max-w-3xl mx-auto">
@@ -50,7 +43,7 @@ export default function BlogPostPage({ category, post }: BlogPostPageProps) {
               </span>
             ))}
           </div>
-        </header>
+        </motion.header>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
