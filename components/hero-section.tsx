@@ -5,6 +5,9 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { gsap } from "gsap"
 import { TextPlugin } from "gsap/TextPlugin"
+import { getStaticParticles } from "@/lib/particle-positions"
+
+const HERO_PARTICLES = getStaticParticles(20)
 
 export default function HeroSection() {
   const nameRef = useRef<HTMLHeadingElement>(null)
@@ -30,19 +33,6 @@ export default function HeroSection() {
   ]
 
 
-
-  const techStack = [
-    { name: "Python", icon: "🐍", color: "text-yellow-400", glow: "shadow-yellow-400/50" },
-    { name: "LangChain", icon: "🔗", color: "text-blue-400", glow: "shadow-blue-400/50" },
-    { name: "LLMs", icon: "🧠", color: "text-purple-400", glow: "shadow-purple-400/50" },
-    { name: "YOLO", icon: "👁️", color: "text-cyan-400", glow: "shadow-cyan-400/50" },
-    { name: "RAG", icon: "📚", color: "text-green-400", glow: "shadow-green-400/50" },
-    { name: "FastAPI", icon: "⚡", color: "text-green-500", glow: "shadow-green-500/50" },
-    { name: "Flask", icon: "🧩", color: "text-amber-400", glow: "shadow-amber-400/50" },
-    { name: "PostgreSQL", icon: "🗄️", color: "text-blue-600", glow: "shadow-blue-600/50" },
-    { name: "TensorFlow", icon: "📊", color: "text-orange-400", glow: "shadow-orange-400/50" },
-    { name: "SQL", icon: "🗄️", color: "text-blue-500", glow: "shadow-blue-500/50" },
-  ]
 
   useEffect(() => {
     // Register GSAP plugin on client side only
@@ -70,22 +60,6 @@ export default function HeroSection() {
         duration: 2.5,
         delay: 2.5,
         ease: "none",
-      })
-
-      // Enhanced floating animation for tech icons
-      gsap.utils.toArray(".tech-icon").forEach((icon: any, i) => {
-        gsap.set(icon, { transformOrigin: "center center" })
-        gsap.to(icon, {
-          y: "random(-30, 30)",
-          x: "random(-20, 20)",
-          rotation: "random(-20, 20)",
-          scale: "random(0.8, 1.2)",
-          duration: "random(3, 6)",
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
-          delay: i * 0.3,
-        })
       })
 
       // Animate particles
@@ -123,14 +97,14 @@ export default function HeroSection() {
         
         {/* Subtle Particle Effect */}
         <div className="absolute inset-0 opacity-20">
-          {Array.from({ length: 20 }).map((_, i) => (
+          {HERO_PARTICLES.map((particle, i) => (
             <div
               key={i}
               className="particle absolute w-1 h-1 bg-cyan-400 rounded-full"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
+                left: `${particle.left}%`,
+                top: `${particle.top}%`,
+                animationDelay: `${particle.delay}s`,
               }}
             />
           ))}
@@ -151,29 +125,6 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Floating Tech Icons with Enhanced Design */}
-      <div className="absolute inset-0">
-        {techStack.map((tech, index) => (
-          <motion.div
-            key={tech.name}
-            className={`tech-icon absolute ${tech.color} opacity-30 hover:opacity-80 transition-all duration-300`}
-            style={{
-              left: `${15 + (index % 4) * 20}%`,
-              top: `${20 + Math.floor(index / 4) * 25}%`,
-            }}
-            whileHover={{ 
-              scale: 1.3, 
-              opacity: 1,
-              filter: "drop-shadow(0 0 20px currentColor)"
-            }}
-          >
-            <div className={`p-4 rounded-xl bg-gray-900/50 backdrop-blur-sm border border-gray-700/50 ${tech.glow} shadow-lg`}>
-              <div className="text-2xl mb-2">{tech.icon}</div>
-              <div className="text-sm font-semibold">{tech.name}</div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
 
       {/* Elegant Code Snippet */}
       <motion.div

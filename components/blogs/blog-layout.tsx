@@ -3,6 +3,9 @@
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { ArrowLeft } from "lucide-react"
+import { getFloatingParticles } from "@/lib/particle-positions"
+
+const BLOG_PARTICLES = getFloatingParticles(30)
 
 interface BlogLayoutProps {
   children: React.ReactNode
@@ -39,24 +42,24 @@ export default function BlogLayout({
           }}
           transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY }}
         />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(120,119,198,0.1),transparent_50%)]" />
+        <motion.div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(120,119,198,0.1),transparent_50%)]" />
       </motion.div>
 
       <div className="fixed inset-0 z-10 pointer-events-none">
-        {Array.from({ length: 30 }).map((_, i) => (
+        {BLOG_PARTICLES.map((particle, i) => (
           <motion.div
             key={i}
             className="absolute w-1 h-1 bg-white/20 rounded-full"
             initial={{
-              x: `${Math.random() * 100}vw`,
-              y: `${Math.random() * 100}vh`,
+              x: `${particle.initialX}vw`,
+              y: `${particle.initialY}vh`,
             }}
             animate={{
-              x: `${Math.random() * 100}vw`,
-              y: `${Math.random() * 100}vh`,
+              x: `${particle.animateX}vw`,
+              y: `${particle.animateY}vh`,
             }}
             transition={{
-              duration: Math.random() * 20 + 10,
+              duration: particle.duration,
               repeat: Number.POSITIVE_INFINITY,
               repeatType: "reverse",
               ease: "linear",

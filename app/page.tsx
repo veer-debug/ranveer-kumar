@@ -14,7 +14,9 @@ import ResumeSection from "@/components/resume-section"
 import AnimatedCursor from "@/components/animated-cursor"
 import SmoothScrollProvider from "@/components/smooth-scroll-provider"
 import Chatbot from "@/components/chatbot"
+import { getFloatingParticles } from "@/lib/particle-positions"
 
+const HOME_PARTICLES = getFloatingParticles(50)
 
 export default function Portfolio() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -79,20 +81,20 @@ export default function Portfolio() {
 
         {/* Floating Particles */}
         <div className="fixed inset-0 z-10 pointer-events-none">
-          {Array.from({ length: 50 }).map((_, i) => (
+          {HOME_PARTICLES.map((particle, i) => (
             <motion.div
               key={i}
               className="absolute w-1 h-1 bg-white/30 rounded-full"
               initial={{
-                x: `${Math.random() * 100}vw`,
-                y: `${Math.random() * 100}vh`,
+                x: `${particle.initialX}vw`,
+                y: `${particle.initialY}vh`,
               }}
               animate={{
-                x: `${Math.random() * 100}vw`,
-                y: `${Math.random() * 100}vh`,
+                x: `${particle.animateX}vw`,
+                y: `${particle.animateY}vh`,
               }}
               transition={{
-                duration: Math.random() * 20 + 10,
+                duration: particle.duration,
                 repeat: Number.POSITIVE_INFINITY,
                 repeatType: "reverse",
                 ease: "linear",

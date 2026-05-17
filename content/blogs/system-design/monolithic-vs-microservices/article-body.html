@@ -2,10 +2,12 @@
 
 <!-- NAV -->
 <nav>
-  <a href="/" class="nav-logo">Ranveer<span>.</span>dev</a>
-  <div class="nav-meta">
-    <span class="nav-tag">System Design</span>
-    <span>10 min read</span>
+  <div class="blog-wrap blog-wrap--nav">
+    <a href="/" class="nav-logo">Ranveer<span>.</span>dev</a>
+    <div class="nav-meta">
+      <span class="nav-tag">System Design</span>
+      <span>10 min read</span>
+    </div>
   </div>
 </nav>
 
@@ -39,9 +41,20 @@
   <!-- VERSUS -->
   <h2>The honest comparison</h2>
 
+  <figure class="architecture-diagram">
+    <img
+      src="/blogs/monolithic-vs-microservices-architecture.png"
+      alt="Diagram comparing Monolithic Architecture with a single UI, business logic, and data access layer on one server versus Microservices Architecture with a UI connected to multiple independent microservices, each with its own server"
+      loading="lazy"
+      width="1200"
+      height="675"
+    />
+    <figcaption>Monolithic vs microservices — high-level architecture view</figcaption>
+  </figure>
+
   <div class="versus">
     <div class="vs-col left">
-      <div class="vs-heading">🧱 Monolith</div>
+      <div class="vs-heading">Monolith</div>
       <ul class="vs-list">
         <li><span class="vs-check">✓</span> Simple to build and deploy</li>
         <li><span class="vs-check">✓</span> Easy to debug (single process)</li>
@@ -54,7 +67,7 @@
       </ul>
     </div>
     <div class="vs-col right">
-      <div class="vs-heading">⚙️ Microservices</div>
+      <div class="vs-heading">Microservices</div>
       <ul class="vs-list">
         <li><span class="vs-check">✓</span> Independent scaling per service</li>
         <li><span class="vs-check">✓</span> Team autonomy &amp; ownership</li>
@@ -208,13 +221,15 @@
 
 <!-- FOOTER -->
 <footer>
-  <span>© 2026 Ranveer Kumar</span>
-  <div class="footer-tags">
-    <span class="ftag">#SystemDesign</span>
-    <span class="ftag">#Microservices</span>
-    <span class="ftag">#SoftwareArchitecture</span>
-    <span class="ftag">#BackendDev</span>
-    <span class="ftag">#DDD</span>
-    <span class="ftag">#DevOps</span>
+  <div class="blog-wrap blog-wrap--footer">
+    <div class="footer-line">
+      <span class="footer-copy">© 2026 Ranveer Kumar</span>
+      <span class="ftag">#SystemDesign</span>
+      <span class="ftag">#Microservices</span>
+      <span class="ftag">#SoftwareArchitecture</span>
+      <span class="ftag">#BackendDev</span>
+      <span class="ftag">#DDD</span>
+      <span class="ftag">#DevOps</span>
+    </div>
   </div>
 </footer>

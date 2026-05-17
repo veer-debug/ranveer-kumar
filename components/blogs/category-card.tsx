@@ -30,14 +30,6 @@ export default function CategoryCard({ category, index }: CategoryCardProps) {
             className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
           />
 
-          <motion.div
-            className="text-4xl mb-4"
-            whileHover={{ scale: 1.2, rotate: 10 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            {category.icon}
-          </motion.div>
-
           <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
             {category.title}
           </h3>

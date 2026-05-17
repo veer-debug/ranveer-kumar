@@ -20,7 +20,6 @@ export default function BlogCategoryPage({ category, topics }: BlogCategoryPageP
           transition={{ duration: 0.6 }}
           className="mb-10"
         >
-          <span className="text-4xl mb-4 block">{category.icon}</span>
           <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-cyan-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
             {category.title}
           </h1>
