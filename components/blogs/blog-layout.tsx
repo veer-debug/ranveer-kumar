@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { ArrowLeft } from "lucide-react"
+import { blogAuthor } from "@/lib/blogs/author"
 import { getFloatingParticles } from "@/lib/particle-positions"
 
 const BLOG_PARTICLES = getFloatingParticles(30)
@@ -72,7 +73,7 @@ export default function BlogLayout({
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="relative z-30 px-4 pt-8 max-w-5xl mx-auto"
+        className="relative z-30 px-4 pt-8 max-w-5xl mx-auto flex items-center justify-between gap-4"
       >
         <Link
           href={backHref}
@@ -80,6 +81,19 @@ export default function BlogLayout({
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           {backLabel}
+        </Link>
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors shrink-0"
+        >
+          <img
+            src={blogAuthor.image}
+            alt={blogAuthor.name}
+            className="w-8 h-8 rounded-full object-cover border border-gray-700/80"
+            width={32}
+            height={32}
+          />
+          <span className="text-sm hidden sm:inline">{blogAuthor.siteName}</span>
         </Link>
       </motion.div>
 

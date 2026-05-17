@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { Calendar } from "lucide-react"
 import BlogLayout from "@/components/blogs/blog-layout"
 import BlogContent from "@/components/blogs/blog-content"
+import { blogAuthor } from "@/lib/blogs/author"
 import type { BlogCategory, BlogPost } from "@/lib/blogs/types"
 
 interface BlogPostPageProps {
@@ -21,6 +22,19 @@ export default function BlogPostPage({ category, post }: BlogPostPageProps) {
           transition={{ duration: 0.6 }}
           className="mb-10"
         >
+          <div className="flex items-center gap-3 mb-6">
+            <img
+              src={blogAuthor.image}
+              alt={blogAuthor.name}
+              className="w-12 h-12 rounded-full object-cover border-2 border-gray-700/80"
+              width={48}
+              height={48}
+            />
+            <div>
+              <p className="text-white font-semibold">{blogAuthor.name}</p>
+              <p className="text-gray-400 text-sm">{blogAuthor.role}</p>
+            </div>
+          </div>
           <h1 className="text-3xl md:text-4xl font-bold mb-4 text-white">{post.title}</h1>
           <p className="text-gray-400 text-lg mb-4">{post.description}</p>
           <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500">

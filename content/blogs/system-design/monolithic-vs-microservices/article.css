@@ -94,14 +94,29 @@ body.monolith-blog-active {
   flex-wrap: nowrap;
 }
 
+.monolith-blog-page .nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.monolith-blog-page .nav-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--paper-3);
+  flex-shrink: 0;
+}
+
 .monolith-blog-page .nav-logo {
   font-family: "Fraunces", serif;
   font-size: 18px;
   font-weight: 600;
   color: var(--ink);
-  text-decoration: none;
   letter-spacing: -0.02em;
-  flex-shrink: 0;
   white-space: nowrap;
 }
 
@@ -189,13 +204,8 @@ body.monolith-blog-active {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: var(--ink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--paper);
+  object-fit: cover;
+  border: 2px solid var(--paper-3);
   flex-shrink: 0;
 }
 
@@ -475,6 +485,15 @@ blockquote p {
   max-width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+.monolith-blog-page .footer-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--paper-3);
+  flex-shrink: 0;
 }
 
 .monolith-blog-page .footer-copy {

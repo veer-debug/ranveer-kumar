@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import BlogLayout from "@/components/blogs/blog-layout"
 import TopicCard from "@/components/blogs/topic-card"
+import { blogAuthor } from "@/lib/blogs/author"
 import type { BlogCategory, BlogPost } from "@/lib/blogs/types"
 
 interface BlogCategoryPageProps {
@@ -20,6 +21,19 @@ export default function BlogCategoryPage({ category, topics }: BlogCategoryPageP
           transition={{ duration: 0.6 }}
           className="mb-10"
         >
+          <div className="flex items-center gap-3 mb-4">
+            <img
+              src={blogAuthor.image}
+              alt={blogAuthor.name}
+              className="w-11 h-11 rounded-full object-cover border-2 border-gray-700/80"
+              width={44}
+              height={44}
+            />
+            <div>
+              <p className="text-white font-medium text-sm">{blogAuthor.name}</p>
+              <p className="text-gray-500 text-xs">{blogAuthor.role}</p>
+            </div>
+          </div>
           <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-cyan-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
             {category.title}
           </h1>
