@@ -15,7 +15,7 @@ interface BlogPostPageProps {
 export default function BlogPostPage({ category, post }: BlogPostPageProps) {
   return (
     <BlogLayout backHref={`/blogs/${category.id}`} backLabel={category.title}>
-      <article className="px-4 py-12 pb-24 max-w-3xl mx-auto">
+      <article className="w-full max-w-3xl mx-auto px-[5%] lg:px-10 py-12 pb-24">
         <motion.header
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -26,18 +26,18 @@ export default function BlogPostPage({ category, post }: BlogPostPageProps) {
             <img
               src={blogAuthor.image}
               alt={blogAuthor.name}
-              className="w-12 h-12 rounded-full object-cover border-2 border-gray-700/80"
+              className="w-12 h-12 rounded-full object-cover border-2 border-paper-3"
               width={48}
               height={48}
             />
             <div>
-              <p className="text-white font-semibold">{blogAuthor.name}</p>
-              <p className="text-gray-400 text-sm">{blogAuthor.role}</p>
+              <p className="text-ink font-semibold">{blogAuthor.name}</p>
+              <p className="text-ink-muted text-sm">{blogAuthor.role}</p>
             </div>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-white">{post.title}</h1>
-          <p className="text-gray-400 text-lg mb-4">{post.description}</p>
-          <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-ink">{post.title}</h1>
+          <p className="text-ink-muted text-lg mb-4">{post.description}</p>
+          <div className="flex flex-wrap items-center gap-3 text-sm text-ink-faint">
             {post.publishedAt && (
               <span className="flex items-center gap-1.5">
                 <Calendar className="w-4 h-4" />
@@ -51,7 +51,7 @@ export default function BlogPostPage({ category, post }: BlogPostPageProps) {
             {post.tags?.map((tag) => (
               <span
                 key={tag}
-                className="px-2.5 py-1 rounded-full bg-gray-800/80 text-gray-400 border border-gray-700/50"
+                className="px-2.5 py-1 rounded-full bg-green-bg text-green text-xs border border-green/15"
               >
                 {tag}
               </span>
@@ -63,7 +63,7 @@ export default function BlogPostPage({ category, post }: BlogPostPageProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15 }}
-          className="rounded-2xl border border-gray-700/50 bg-gray-900/30 backdrop-blur-sm p-6 md:p-8"
+          className="rounded-2xl border border-paper-3 bg-paper p-6 md:p-8 shadow-sm"
         >
           <BlogContent content={post.content ?? ""} />
         </motion.div>

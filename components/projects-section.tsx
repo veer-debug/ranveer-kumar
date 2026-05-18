@@ -2,8 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ExternalLink, Github } from "lucide-react"
-
+import { ExternalLink, Github, X } from "lucide-react"
 export default function ProjectsSection() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null)
 
@@ -104,43 +103,35 @@ export default function ProjectsSection() {
   ]
 
   return (
-    <section id="projects" className="fade-in-section py-20 px-4 relative">
+    <section id="projects" className="py-16 md:py-24 px-[5%] bg-paper-2 border-b-2 border-black">
       <div className="max-w-6xl mx-auto">
-        <motion.h2
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent"
-        >
-          Featured Projects
-        </motion.h2>
+        <div className="relative mb-10 md:mb-14">
+          <span className="section-number absolute -top-4 left-0 pointer-events-none" aria-hidden>
+            04
+          </span>
+          <h2 className="editorial-section-title relative pt-8 md:pt-12">Projects</h2>
+          <p className="text-ink-3 font-mono text-sm mt-4 max-w-2xl">Click a card for features and links.</p>
+        </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
             <motion.div
               key={project.id}
               className="relative group cursor-pointer interactive"
-              initial={{ opacity: 0, y: 100, rotateX: 45 }}
-              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-              whileHover={{ y: -10, rotateY: 5 }}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.08 }}
               onClick={() => setSelectedProject(project.id)}
             >
-              <div className="relative p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 overflow-hidden">
-                {/* Gradient Background */}
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-10 group-hover:opacity-20 transition-opacity duration-300`}
-                />
-
-                {/* Content */}
+              <div className="editorial-card p-6 overflow-hidden">
                 <div className="relative z-10">
-                  <h3 className="text-xl font-bold text-white mb-3">{project.title}</h3>
-                  <p className="text-gray-300 text-sm mb-4 line-clamp-3">{project.description}</p>
+                  <h3 className="text-xl font-bold text-ink mb-3">{project.title}</h3>
+                  <p className="text-ink-3 text-sm mb-4 line-clamp-3">{project.description}</p>
 
                   {/* Tech Stack */}
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.tech.map((tech) => (
-                      <span key={tech} className="px-2 py-1 text-xs bg-white/10 rounded-full text-white">
+                      <span key={tech} className="editorial-tag text-[10px]">
                         {tech}
                       </span>
                     ))}
@@ -152,7 +143,7 @@ export default function ProjectsSection() {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+                      className="p-2 border-2 border-black bg-paper neo-shadow-sm hover:bg-cyan/30 transition-colors"
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={(e) => e.stopPropagation()}
@@ -164,7 +155,7 @@ export default function ProjectsSection() {
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+                        className="p-2 border-2 border-black bg-paper neo-shadow-sm hover:bg-cyan/30 transition-colors"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={(e) => e.stopPropagation()}
@@ -189,31 +180,41 @@ export default function ProjectsSection() {
         <AnimatePresence>
           {selectedProject && (
             <motion.div
-              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+              className="fixed inset-0 bg-ink/40 backdrop-blur-sm z-50 flex items-center justify-center p-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedProject(null)}
             >
               <motion.div
-                className="bg-white/10 backdrop-blur-md rounded-2xl p-8 max-w-2xl w-full border border-white/20"
-                initial={{ scale: 0.5, rotateY: 90 }}
-                animate={{ scale: 1, rotateY: 0 }}
-                exit={{ scale: 0.5, rotateY: -90 }}
+                className="bg-paper border-2 border-black p-8 max-w-2xl w-full neo-shadow max-h-[90vh] overflow-y-auto"
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.95, opacity: 0 }}
                 onClick={(e) => e.stopPropagation()}
               >
                 {(() => {
                   const project = projects.find((p) => p.id === selectedProject)!
                   return (
                     <>
-                      <h3 className="text-3xl font-bold text-white mb-4">{project.title}</h3>
-                      <p className="text-gray-300 mb-6">{project.description}</p>
+                      <div className="flex justify-between items-start gap-4 mb-4">
+                        <h3 className="text-2xl md:text-3xl font-bold text-ink">{project.title}</h3>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedProject(null)}
+                          className="p-2 border-2 border-black bg-paper hover:bg-cyan/30 shrink-0"
+                          aria-label="Close"
+                        >
+                          <X size={20} />
+                        </button>
+                      </div>
+                      <p className="text-ink-3 mb-6">{project.description}</p>
 
-                      <h4 className="text-xl font-semibold text-white mb-3">Key Features:</h4>
+                      <h4 className="text-xl font-bold text-ink mb-3 font-mono uppercase text-sm tracking-wider">Key features</h4>
                       <ul className="space-y-2 mb-6">
                         {project.features.map((feature, index) => (
-                          <li key={index} className="text-gray-300 flex items-start">
-                            <span className="text-green-400 mr-2">•</span>
+                          <li key={index} className="text-ink-3 flex items-start text-sm">
+                            <span className="font-mono mr-2">→</span>
                             {feature}
                           </li>
                         ))}
@@ -224,7 +225,7 @@ export default function ProjectsSection() {
                           href={project.github}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center space-x-2 px-6 py-3 bg-white/10 rounded-full text-white hover:bg-white/20 transition-colors"
+                          className="flex items-center gap-2 px-5 py-3 btn-outline-glow"
                           whileHover={{ scale: 1.05 }}
                         >
                           <Github size={20} />
@@ -235,7 +236,7 @@ export default function ProjectsSection() {
                             href={project.liveUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full text-white hover:from-blue-600 hover:to-purple-600 transition-colors"
+                            className="flex items-center gap-2 btn-gradient"
                             whileHover={{ scale: 1.05 }}
                           >
                             <ExternalLink size={20} />

@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
 
 export default function AnimatedCursor() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -17,7 +16,6 @@ export default function AnimatedCursor() {
 
     window.addEventListener("mousemove", updateMousePosition)
 
-    // Add hover listeners to interactive elements
     const interactiveElements = document.querySelectorAll("button, a, .interactive")
     interactiveElements.forEach((el) => {
       el.addEventListener("mouseenter", handleMouseEnter)
@@ -34,25 +32,17 @@ export default function AnimatedCursor() {
   }, [])
 
   return (
-    <>
-      <motion.div
-        className="fixed top-0 left-0 w-4 h-4 bg-white rounded-full pointer-events-none z-50 mix-blend-difference"
-        animate={{
-          x: mousePosition.x - 8,
-          y: mousePosition.y - 8,
-          scale: isHovering ? 1.5 : 1,
-        }}
-        transition={{ type: "spring", stiffness: 500, damping: 28 }}
+    <div
+      className="fixed top-0 left-0 pointer-events-none z-[10000] mix-blend-screen"
+      style={{
+        transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)`,
+      }}
+    >
+      <div
+        className={`bg-accent transition-all duration-150 ${isHovering ? "w-3 h-6" : "w-2.5 h-4"}`}
+        style={{ marginLeft: -4, marginTop: -8 }}
+        aria-hidden
       />
-      <motion.div
-        className="fixed top-0 left-0 w-8 h-8 border border-white/50 rounded-full pointer-events-none z-50"
-        animate={{
-          x: mousePosition.x - 16,
-          y: mousePosition.y - 16,
-          scale: isHovering ? 2 : 1,
-        }}
-        transition={{ type: "spring", stiffness: 150, damping: 15, delay: 0.1 }}
-      />
-    </>
+    </div>
   )
 }

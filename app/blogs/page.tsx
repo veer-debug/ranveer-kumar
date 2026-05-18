@@ -9,7 +9,7 @@ import { blogAuthor } from "@/lib/blogs/author"
 export default function BlogsPage() {
   return (
     <BlogLayout backHref="/" backLabel="Back to Portfolio">
-      <section className="px-4 py-12 pb-24 max-w-5xl mx-auto">
+      <section className="w-full max-w-6xl mx-auto px-[5%] lg:px-10 py-12 pb-24">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -19,15 +19,15 @@ export default function BlogsPage() {
           <img
             src={blogAuthor.image}
             alt={blogAuthor.name}
-            className="w-20 h-20 rounded-full object-cover mx-auto mb-6 border-2 border-cyan-400/40 shadow-lg shadow-cyan-500/20"
+            className="w-20 h-20 rounded-full object-cover mx-auto mb-6 border-2 border-paper-3 shadow-md"
             width={80}
             height={80}
           />
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-ink">
             Blogs
           </h1>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Notes on system design, machine learning, AI, and data structures & algorithms
+          <p className="text-ink-muted text-lg max-w-2xl mx-auto">
+            Longer write-ups on system design and ML — posted when I have something worth sharing.
           </p>
         </motion.div>
 

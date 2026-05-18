@@ -3,7 +3,7 @@ function renderLine(line: string, key: string) {
 
   if (trimmed.startsWith("## ")) {
     return (
-      <h2 key={key} className="text-2xl font-bold text-white mt-8 mb-4">
+      <h2 key={key} className="text-2xl font-bold text-ink mt-8 mb-4">
         {trimmed.slice(3)}
       </h2>
     )
@@ -11,7 +11,7 @@ function renderLine(line: string, key: string) {
 
   if (trimmed.startsWith("# ")) {
     return (
-      <h1 key={key} className="text-3xl font-bold text-white mt-8 mb-4">
+      <h1 key={key} className="text-3xl font-bold text-ink mt-8 mb-4">
         {trimmed.slice(2)}
       </h1>
     )
@@ -22,7 +22,7 @@ function renderLine(line: string, key: string) {
   }
 
   return (
-    <p key={key} className="text-gray-300 leading-relaxed mb-4">
+    <p key={key} className="text-ink-muted leading-relaxed mb-4">
       {trimmed}
     </p>
   )
@@ -32,7 +32,7 @@ export default function BlogContent({ content }: { content: string }) {
   const lines = content.split("\n")
 
   return (
-    <div className="prose prose-invert max-w-none">
+    <div className="max-w-none text-ink">
       {lines.map((line, index) => renderLine(line, `line-${index}`))}
     </div>
   )

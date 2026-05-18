@@ -1,82 +1,60 @@
-"use client"
+import { blogAuthor } from "@/lib/blogs/author"
 
-import { useEffect, useRef } from "react"
-import { motion, useInView } from "framer-motion"
-import { gsap } from "gsap"
+const HIGHLIGHTS = [
+  "Ships AI projects that solve real problems — RAG, agents, vision",
+  "Open to AI/ML and product engineering roles",
+  "Enjoys clean interfaces and clean APIs equally",
+]
 
 export default function AboutSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const timelineRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
-
-  useEffect(() => {
-    if (isInView) {
-      const ctx = gsap.context(() => {
-        // Timeline animation
-        gsap.fromTo(
-          ".timeline-item",
-          { opacity: 0, x: -100, rotationY: 90 },
-          {
-            opacity: 1,
-            x: 0,
-            rotationY: 0,
-            duration: 1,
-            stagger: 0.3,
-            ease: "power3.out",
-          },
-        )
-      })
-
-      return () => ctx.revert()
-    }
-  }, [isInView])
-
-  const timeline = [
-    { year: "2021", event: "Started BTech in Computer Science at SBSSU", type: "education" },
-    { year: "2023", event: "Secured 3rd in NCC Inter-Group Sport Shooting Competition", type: "achievement" },
-    { year: "2025", event: "AI Engineer Intern at Octro Inc.", type: "experience" },
-    { year: "2025", event: "AI/ML Intern at TOD-SMA (Remote, US)", type: "experience" },
-    { year: "2025", event: "Graduating with BTech in Computer Science (CGPA: 7.5)", type: "education" },
-  ]
-
   return (
-    <section ref={sectionRef} className="fade-in-section py-20 px-4 relative">
+    <section id="about" className="py-16 md:py-24 px-[5%] bg-paper border-b-2 border-black">
       <div className="max-w-6xl mx-auto">
-        <motion.h2
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent"
-        >
-          About Me
-        </motion.h2>
-
-        <div className="max-w-3xl mx-auto">
-          {/* Timeline */}
-          <div ref={timelineRef} className="space-y-8">
-            <h3 className="text-3xl font-semibold mb-8 text-white">My Journey</h3>
-            {timeline.map((item, index) => (
-              <motion.div
-                key={index}
-                className="timeline-item flex items-center space-x-4 p-4 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10"
-                whileHover={{ scale: 1.02, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
-              >
-                <div
-                  className={`w-4 h-4 rounded-full ${
-                    item.type === "education"
-                      ? "bg-blue-500"
-                      : item.type === "experience"
-                        ? "bg-green-500"
-                        : "bg-purple-500"
-                  }`}
-                />
-                <div>
-                  <div className="text-sm text-gray-400">{item.year}</div>
-                  <div className="text-white font-medium">{item.event}</div>
-                </div>
-              </motion.div>
-            ))}
+        <div className="grid lg:grid-cols-[minmax(280px,420px)_1fr] gap-10 lg:gap-16 items-start mb-12 md:mb-16">
+          <div className="about-photo-wrap mx-auto lg:mx-0 w-full">
+            <div className="about-photo-shadow" aria-hidden />
+            <div className="about-photo-frame">
+              <img
+                src={blogAuthor.image}
+                alt={blogAuthor.name}
+                width={480}
+                height={520}
+                className="w-full aspect-[4/5] object-cover object-top contrast-[1.05] saturate-[0.9]"
+              />
+            </div>
           </div>
+
+          <div className="min-w-0">
+            <div className="relative mb-8 md:mb-10">
+              <span className="section-number absolute -top-2 left-0 pointer-events-none" aria-hidden>
+                02
+              </span>
+              <h2 className="editorial-section-title relative pt-6 md:pt-10">About</h2>
+            </div>
+
+            <div className="space-y-5 text-base md:text-lg text-ink leading-relaxed max-w-2xl">
+              <p>
+                I&apos;m an AI engineer focused on production systems — LLM features, RAG pipelines, and
+                computer vision. I care about reliability, not demos: models that work when traffic hits.
+              </p>
+              <p>
+                Currently interning at Octro; previously built agents and retrieval systems for US startups,
+                plus data science and web work. I like owning the path from notebook to deployed API.
+              </p>
+              <p>
+                Outside work: competitive programming, NCC sport shooting, and side projects where the stack
+                is Python, FastAPI, LangChain, and React when a UI is needed.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-4 md:gap-5">
+          {HIGHLIGHTS.map((text) => (
+            <p key={text} className="about-highlight">
+              {text}
+            </p>
+          ))}
         </div>
       </div>
     </section>

@@ -14,7 +14,7 @@ interface BlogCategoryPageProps {
 export default function BlogCategoryPage({ category, topics }: BlogCategoryPageProps) {
   return (
     <BlogLayout backHref="/blogs" backLabel="All Categories">
-      <section className="px-4 py-12 pb-24 max-w-3xl mx-auto">
+      <section className="w-full max-w-6xl mx-auto px-[5%] lg:px-10 py-12 pb-24">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -25,33 +25,33 @@ export default function BlogCategoryPage({ category, topics }: BlogCategoryPageP
             <img
               src={blogAuthor.image}
               alt={blogAuthor.name}
-              className="w-11 h-11 rounded-full object-cover border-2 border-gray-700/80"
+              className="w-11 h-11 rounded-full object-cover border-2 border-paper-3"
               width={44}
               height={44}
             />
             <div>
-              <p className="text-white font-medium text-sm">{blogAuthor.name}</p>
-              <p className="text-gray-500 text-xs">{blogAuthor.role}</p>
+              <p className="text-ink font-medium text-sm">{blogAuthor.name}</p>
+              <p className="text-ink-faint text-xs">{blogAuthor.role}</p>
             </div>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-cyan-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+          <h1 className="text-3xl md:text-4xl font-bold mb-3 text-ink">
             {category.title}
           </h1>
-          <p className="text-gray-400">{category.description}</p>
+          <p className="text-ink-muted">{category.description}</p>
         </motion.div>
 
         {topics.length === 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="rounded-2xl border border-dashed border-gray-700/80 bg-gray-900/30 p-10 text-center"
+            className="rounded-2xl border border-dashed border-paper-3 bg-paper-2 p-10 text-center"
           >
-            <p className="text-gray-400 mb-2">No topics published yet.</p>
-            <p className="text-gray-500 text-sm">
+            <p className="text-ink-muted mb-2">No topics published yet.</p>
+            <p className="text-ink-faint text-sm">
               Add a folder under{" "}
-              <code className="text-cyan-400/90">content/blogs/{category.id}/</code> and
+              <code className="text-green">content/blogs/{category.id}/</code> and
               register it in{" "}
-              <code className="text-cyan-400/90">index.ts</code>.
+              <code className="text-green">index.ts</code>.
             </p>
           </motion.div>
         ) : (

@@ -1,6 +1,10 @@
 "use client"
 
 import { useEffect } from "react"
+import SiteHeader from "@/components/site-header"
+import SiteFooter from "@/components/site-footer"
+import Chatbot from "@/components/chatbot"
+import { siteTheme } from "@/lib/site-theme"
 import "./article.css"
 
 interface MonolithArticleClientProps {
@@ -9,9 +13,6 @@ interface MonolithArticleClientProps {
 
 export default function MonolithArticleClient({ html }: MonolithArticleClientProps) {
   useEffect(() => {
-    document.body.classList.add("monolith-blog-active")
-    document.documentElement.style.scrollBehavior = "smooth"
-
     const onScroll = () => {
       const bar = document.getElementById("progress-bar")
       if (!bar) return
@@ -25,23 +26,28 @@ export default function MonolithArticleClient({ html }: MonolithArticleClientPro
     onScroll()
 
     return () => {
-      document.body.classList.remove("monolith-blog-active")
-      document.documentElement.style.scrollBehavior = ""
       window.removeEventListener("scroll", onScroll)
     }
   }, [])
 
   return (
-    <>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet"
-      />
-      <div
-        className="monolith-blog-page"
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
-    </>
+    <div className={`min-h-screen flex flex-col ${siteTheme.page}`}>
+      <SiteHeader variant="default" />
+
+      <div className="w-full border-b border-paper-3 bg-paper-2">
+        <div className="w-full px-[5%] lg:px-10 xl:px-14 py-3">
+          <a href="/blogs/system-design" className="text-sm font-medium text-ink-muted hover:text-green transition-colors">
+            ← System Design
+          </a>
+        </div>
+      </div>
+
+      <main className="flex-1 w-full">
+        <div className="monolith-blog-page" dangerouslySetInnerHTML={{ __html: html }} />
+      </main>
+
+      <SiteFooter />
+      <Chatbot />
+    </div>
   )
 }

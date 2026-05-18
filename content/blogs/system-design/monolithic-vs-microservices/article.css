@@ -1,19 +1,24 @@
 :root {
-  --ink: #1a1a18;
-  --ink-2: #4a4a44;
-  --ink-3: #8a8a82;
-  --paper: #f5f2eb;
-  --paper-2: #ede9df;
-  --paper-3: #e2ddd2;
-  --accent: #c0392b;
-  --accent-2: #e8d5b7;
-  --green: #1a5c3a;
-  --green-bg: #e8f4ee;
+  --ink: #0f1f17;
+  --ink-2: #3d5c4a;
+  --ink-3: #6b8f7a;
+  --paper: #ffffff;
+  --paper-2: #f4f8f5;
+  --paper-3: #e2ebe5;
+  --accent: #2d6a4f;
+  --accent-2: #14b8a6;
+  --green: #2d6a4f;
+  --green-bg: rgba(45, 106, 79, 0.1);
   --red-bg: #fdf0ee;
-  --mono-bg: #f0ede5;
+  --mono-bg: #f4f8f5;
   --blog-content-max: min(920px, 86vw);
   --blog-gutter: clamp(1.25rem, 3vw, 2rem);
   --blog-edge-margin: 5%;
+}
+
+/* Hide duplicate in-article nav — site header is used instead */
+.monolith-blog-page > nav {
+  display: none;
 }
 
 .monolith-blog-page {
@@ -21,7 +26,7 @@
   overflow-x: hidden;
   background: var(--paper);
   color: var(--ink);
-  font-family: "Instrument Sans", sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
   font-size: 17px;
   line-height: 1.8;
 }
@@ -56,11 +61,6 @@ html {
 body.monolith-blog-active {
   background: var(--paper);
   color: var(--ink);
-  font-family: "Instrument Sans", sans-serif;
-  font-size: 17px;
-  line-height: 1.8;
-  min-height: 100vh;
-  margin: 0;
 }
 
 /* Shared centered content column */
@@ -112,9 +112,9 @@ body.monolith-blog-active {
 }
 
 .monolith-blog-page .nav-logo {
-  font-family: "Fraunces", serif;
+  font-family: inherit;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--ink);
   letter-spacing: -0.02em;
   white-space: nowrap;
@@ -172,7 +172,7 @@ body.monolith-blog-active {
 }
 
 .monolith-blog-page h1 {
-  font-family: "Fraunces", serif;
+  font-family: inherit;
   font-size: clamp(2.2rem, 5vw, 3.4rem);
   font-weight: 300;
   line-height: 1.12;
@@ -240,7 +240,7 @@ body.monolith-blog-active {
 
 /* ── SECTION HEADINGS ── */
 h2 {
-  font-family: 'Fraunces', serif;
+  font-family: inherit;
   font-size: 1.7rem;
   font-weight: 400;
   letter-spacing: -0.02em;
@@ -250,7 +250,7 @@ h2 {
 }
 
 h3 {
-  font-family: 'Instrument Sans', sans-serif;
+  font-family: inherit;
   font-size: 1rem;
   font-weight: 600;
   color: var(--ink);
@@ -302,7 +302,7 @@ h3 {
 .vs-col.right { background: var(--green-bg); }
 
 .vs-heading {
-  font-family: 'Fraunces', serif;
+  font-family: inherit;
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 1.25rem;
@@ -345,7 +345,7 @@ h3 {
 }
 
 .card-num {
-  font-family: 'Fraunces', serif;
+  font-family: inherit;
   font-size: 2rem;
   font-weight: 300;
   color: #e8c5c0;
@@ -419,7 +419,7 @@ blockquote {
 }
 
 blockquote p {
-  font-family: 'Fraunces', serif;
+  font-family: inherit;
   font-size: 1.35rem;
   font-weight: 300;
   font-style: italic;

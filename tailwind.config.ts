@@ -19,7 +19,50 @@ const config: Config = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Georgia", "serif"],
+        mono: ["ui-monospace", "monospace"],
+      },
       colors: {
+        ink: {
+          DEFAULT: "var(--ink)",
+          muted: "var(--ink-2)",
+          faint: "var(--ink-3)",
+        },
+        paper: {
+          DEFAULT: "var(--paper)",
+          2: "var(--paper-2)",
+          3: "var(--paper-3)",
+        },
+        cyan: {
+          DEFAULT: "var(--cyan)",
+          dark: "var(--cyan-dark)",
+        },
+        "ink-3": "var(--ink-3)",
+        forest: {
+          DEFAULT: "#0d2818",
+          light: "#1b4332",
+          mid: "#2d6a4f",
+        },
+        teal: {
+          DEFAULT: "#14b8a6",
+          hover: "#0d9488",
+        },
+        sage: "#52b788",
+        green: {
+          DEFAULT: "var(--green)",
+          bg: "var(--green-bg)",
+        },
+        brand: {
+          DEFAULT: "var(--green)",
+          soft: "var(--accent-2)",
+          green: "var(--green)",
+          "green-bg": "var(--green-bg)",
+        },
+        mono: {
+          bg: "var(--mono-bg)",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -42,7 +85,8 @@ const config: Config = {
           foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
+          DEFAULT: "var(--green)",
+          2: "var(--accent-2)",
           foreground: "hsl(var(--accent-foreground))",
         },
         popover: {
@@ -68,25 +112,10 @@ const config: Config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        float: {
-          "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-20px)" },
-        },
-        pulse: {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.5" },
-        },
-        "gradient-shift": {
-          "0%, 100%": { backgroundPosition: "0% 50%" },
-          "50%": { backgroundPosition: "100% 50%" },
-        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        float: "float 3s ease-in-out infinite",
-        pulse: "pulse 2s ease-in-out infinite",
-        "gradient-shift": "gradient-shift 3s ease infinite",
       },
     },
   },

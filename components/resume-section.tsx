@@ -1,193 +1,122 @@
 "use client"
 
-import { motion } from "framer-motion"
 import { Download, Eye, GraduationCap, Briefcase, Award } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { siteTheme } from "@/lib/site-theme"
+
+const SKILLS = {
+  programming: ["Python", "JavaScript", "C/C++", "TypeScript"],
+  data: ["NumPy", "Pandas", "PySpark", "MLflow"],
+  ml: ["Machine Learning", "Deep Learning", "Scikit-Learn", "TensorFlow", "YOLO", "Computer Vision"],
+  infra: ["FastAPI", "Flask", "Streamlit", "Celery", "Docker"],
+  database: ["PostgreSQL", "MySQL", "MongoDB"],
+  frontend: ["React", "Next.js", "Tailwind CSS", "HTML", "CSS"],
+  tools: ["Git", "GitHub", "Linux", "VS Code", "Jupyter"],
+}
+
+const STATS = [
+  { label: "Years of experience", value: "1+" },
+  { label: "Projects completed", value: "6+" },
+  { label: "Technologies", value: "15+" },
+]
 
 export default function ResumeSection() {
-  const resumeData = {
-    education: {
-      institution: "Shaheed Bhagat Singh State University",
-      degree: "Bachelor of Technology - Computer Science",
-      duration: "Sep. 2021 – May 2025",
-      cgpa: "7.0",
-      location: "Ferozepur, Punjab",
-    },
-    skills: {
-      programming: ["Python", "JavaScript", "C/C++", "TypeScript"],
-      data: ["NumPy", "Pandas", "PySpark", "MLflow"],
-      ml: ["Machine Learning", "Deep Learning", "Scikit-Learn", "TensorFlow", "YOLO", "Computer Vision"],
-      infra: ["FastAPI", "Flask", "Streamlit", "Celery", "Docker"],
-      database: ["PostgreSQL", "MySQL", "MongoDB"],
-      auth: ["Authentication", "JWT"],
-      frontend: ["React", "Next.js", "Tailwind CSS", "HTML", "CSS"],
-      viz: ["Matplotlib", "Seaborn", "Plotly", "Data Visualization"],
-      tools: ["Git", "GitHub", "Linux", "VS Code", "Jupyter", "Colab", "Postman", "Figma"],
-    },
-  }
-
   return (
-    <section className="fade-in-section py-20 px-4 relative">
+    <section id="resume" className="py-16 md:py-24 px-[5%] bg-paper-2 border-t-2 border-black">
       <div className="max-w-6xl mx-auto">
-        <motion.h2
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent"
-        >
-          Resume
-        </motion.h2>
+        <div className="relative mb-10 md:mb-14">
+          <span className="section-number absolute -top-4 left-0 pointer-events-none" aria-hidden>
+            07
+          </span>
+          <h2 className="editorial-section-title relative pt-8 md:pt-12">Resume</h2>
+          <p className="text-ink-3 font-mono text-sm mt-4">PDF download or preview on Google Drive.</p>
+        </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* Resume Preview */}
-          <div className="lg:col-span-2">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10"
-            >
-              {/* Header */}
-              <div className="text-center mb-8">
-                <h3 className="text-3xl font-bold text-white mb-2">Ranveer Kumar</h3>
-                <p className="text-gray-300">AI / Machine Learning Developer</p>
-                <div className="flex justify-center space-x-4 mt-4 text-sm text-gray-400">
-                  <span>7033882318</span>
-                  <span>|</span>
-                  <span>ranveep097@gmail.com</span>
-                </div>
-              </div>
-
-              {/* Education */}
-              <motion.div
-                className="mb-8"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
-                <div className="flex items-center mb-4">
-                  <GraduationCap className="text-blue-400 mr-3" size={24} />
-                  <h4 className="text-xl font-semibold text-white">Education</h4>
-                </div>
-                <div className="pl-9">
-                  <h5 className="text-lg font-medium text-white">{resumeData.education.institution}</h5>
-                  <p className="text-gray-300">{resumeData.education.degree}</p>
-                  <p className="text-gray-400 text-sm">
-                    {resumeData.education.duration} | CGPA: {resumeData.education.cgpa}
-                  </p>
-                  <p className="text-gray-400 text-sm">{resumeData.education.location}</p>
-                </div>
-              </motion.div>
-
-              {/* Skills */}
-              <motion.div
-                className="mb-8"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-              >
-                <div className="flex items-center mb-4">
-                  <Award className="text-purple-400 mr-3" size={24} />
-                  <h4 className="text-xl font-semibold text-white">Technical Skills</h4>
-                </div>
-                <div className="pl-9 space-y-3">
-                  {Object.entries(resumeData.skills).map(([category, skills]) => (
-                    <div key={category}>
-                      <span className="text-gray-300 font-medium capitalize">
-                        {category.replace(/([A-Z])/g, " $1")}:{" "}
-                      </span>
-                      <span className="text-gray-400">{skills.join(", ")}</span>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-
-              {/* Experience Highlight */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-              >
-                <div className="flex items-center mb-4">
-                  <Briefcase className="text-green-400 mr-3" size={24} />
-                  <h4 className="text-xl font-semibold text-white">Experience Highlights</h4>
-                </div>
-                <div className="pl-9 space-y-2 text-gray-300">
-                  <p>• 1 year of AI/ML & Python backend development experience</p>
-                  <p>• Led technical initiatives at Compuwave Society</p>
-                  <p>• Improved application performance by 45% at India Accelerator</p>
-                  <p>• Built scalable SaaS platforms with modern architecture</p>
-                </div>
-              </motion.div>
-            </motion.div>
-          </div>
-
-          {/* Download Section */}
-          <div className="space-y-6">
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="p-6 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 backdrop-blur-sm border border-white/10"
-            >
-              <h4 className="text-xl font-semibold text-white mb-4">Download Resume</h4>
-              <p className="text-gray-300 mb-6 text-sm">
-                Get the complete PDF version of my resume with detailed project descriptions and achievements.
+          <div className="lg:col-span-2 editorial-card p-6 md:p-8">
+            <div className="text-center mb-8 pb-8 border-b border-paper-3">
+              <h3 className="text-2xl font-bold text-ink">Ranveer Kumar</h3>
+              <p className="text-ink-3 mt-1 font-mono text-sm">AI / Machine Learning Developer</p>
+              <p className="text-sm text-ink-3 mt-3 font-mono">
+                7033882318 · ranveep097@gmail.com
               </p>
+            </div>
 
-              <div className="space-y-3">
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  <Button asChild className="w-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white interactive">
-                    <a href="/api/download-resume" download="Ranveer_Kumar_Resume.pdf">
-                      <Download size={20} className="mr-2" />
-                      Download PDF
-                    </a>
-                  </Button>
-                </motion.div>
-
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  <Button
-                    variant="outline"
-                    asChild
-                    className="w-full border-white/20 text-white hover:bg-white/10 interactive bg-transparent"
-                  >
-                      <a href="https://drive.google.com/file/d/1FH5wa2M7a6uhcQDkzLDhCVKR_yEM2Bj2/view?usp=sharing" target="_blank" rel="noopener noreferrer">
-                      <Eye size={20} className="mr-2" />
-                      Preview Online
-                    </a>
-                  </Button>
-                </motion.div>
+            <div className="mb-8">
+              <div className="flex items-center gap-3 mb-4">
+                <GraduationCap className="shrink-0" size={22} />
+                <h4 className="text-lg font-bold text-ink">Education</h4>
               </div>
-            </motion.div>
+              <div className="pl-1 md:pl-9">
+                <h5 className="font-semibold text-ink">Shaheed Bhagat Singh State University</h5>
+                <p className="text-ink-3 text-sm">B.Tech — Computer Science</p>
+                <p className="text-ink-3 text-sm mt-1 font-mono">Sep 2021 – May 2025 · CGPA 7.0 · Ferozepur, Punjab</p>
+              </div>
+            </div>
 
-            {/* Quick Stats */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10"
-            >
-              <h4 className="text-xl font-semibold text-white mb-4">Quick Stats</h4>
-              <div className="space-y-4">
-                {[
-                  { label: "Year of Experience", value: "1" },
-                  { label: "Projects Completed", value: "20+" },
-                  { label: "Technologies Mastered", value: "15+" },
-                  { label: "Leadership Roles", value: "3" },
-                ].map((stat, index) => (
-                  <motion.div
-                    key={stat.label}
-                    className="flex justify-between items-center"
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                  >
-                    <span className="text-gray-300 text-sm">{stat.label}</span>
-                    <span className="text-white font-semibold">{stat.value}</span>
-                  </motion.div>
+            <div className="mb-8">
+              <div className="flex items-center gap-3 mb-4">
+                <Award className="shrink-0" size={22} />
+                <h4 className="text-lg font-bold text-ink">Technical skills</h4>
+              </div>
+              <div className="space-y-3 pl-1 md:pl-9">
+                {Object.entries(SKILLS).map(([category, items]) => (
+                  <p key={category} className="text-sm text-ink-3">
+                    <span className="font-semibold text-ink capitalize">
+                      {category.replace(/([A-Z])/g, " $1").trim()}:
+                    </span>{" "}
+                    {items.join(", ")}
+                  </p>
                 ))}
               </div>
-            </motion.div>
+            </div>
+
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <Briefcase className="shrink-0" size={22} />
+                <h4 className="text-lg font-bold text-ink">Experience highlights</h4>
+              </div>
+              <ul className="space-y-2 text-sm text-ink-3 pl-1 md:pl-9">
+                <li className="flex gap-2"><span className="font-mono">→</span>1+ year building LLM, RAG, and computer vision systems in production</li>
+                <li className="flex gap-2"><span className="font-mono">→</span>AI intern at Octro Inc., TOD-SMA (US), Damsonic, and Sabudh Foundation</li>
+                <li className="flex gap-2"><span className="font-mono">→</span>End-to-end pipelines: data → model → API → deployment</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <div className={`${siteTheme.cardEditorial}`}>
+              <h4 className="text-lg font-bold text-ink mb-2">Download resume</h4>
+              <p className="text-ink-3 text-sm mb-6">
+                Full PDF with projects, internships, and technical detail.
+              </p>
+              <div className="space-y-3">
+                <a href="/api/download-resume" download="Ranveer_Kumar_Resume.pdf" className={`${siteTheme.btnPrimary} w-full text-center`}>
+                  <Download size={18} className="inline mr-2" />
+                  Download PDF
+                </a>
+                <a
+                  href="https://drive.google.com/file/d/1FH5wa2M7a6uhcQDkzLDhCVKR_yEM2Bj2/view?usp=sharing"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${siteTheme.btnSecondary} w-full text-center inline-flex items-center justify-center gap-2`}
+                >
+                  <Eye size={18} />
+                  Preview online
+                </a>
+              </div>
+            </div>
+
+            <div className={siteTheme.cardEditorial}>
+              <h4 className="text-lg font-bold text-ink mb-4">Quick stats</h4>
+              <ul className="space-y-4">
+                {STATS.map((stat) => (
+                  <li key={stat.label} className="flex justify-between items-center text-sm">
+                    <span className="text-ink-3 font-mono text-xs uppercase">{stat.label}</span>
+                    <span className="font-bold">{stat.value}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>

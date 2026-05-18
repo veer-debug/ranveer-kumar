@@ -1,12 +1,9 @@
-"use client"
-
 import Link from "next/link"
-import { motion } from "framer-motion"
 import { ArrowLeft } from "lucide-react"
-import { blogAuthor } from "@/lib/blogs/author"
-import { getFloatingParticles } from "@/lib/particle-positions"
-
-const BLOG_PARTICLES = getFloatingParticles(30)
+import SiteHeader from "@/components/site-header"
+import SiteFooter from "@/components/site-footer"
+import Chatbot from "@/components/chatbot"
+import { siteTheme } from "@/lib/site-theme"
 
 interface BlogLayoutProps {
   children: React.ReactNode
@@ -16,82 +13,31 @@ interface BlogLayoutProps {
 
 export default function BlogLayout({
   children,
-  backHref = "/",
-  backLabel = "Back to Portfolio",
+  backHref = "/blogs",
+  backLabel = "Back",
 }: BlogLayoutProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
-      className="relative min-h-screen bg-black text-white overflow-hidden"
-    >
-      <motion.div
-        className="fixed inset-0 z-0"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-      >
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-teal-900/20"
-          animate={{
-            background: [
-              "linear-gradient(45deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1))",
-              "linear-gradient(45deg, rgba(59, 130, 246, 0.1), rgba(6, 182, 212, 0.1))",
-              "linear-gradient(45deg, rgba(6, 182, 212, 0.1), rgba(139, 92, 246, 0.1))",
-            ],
-          }}
-          transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY }}
-        />
-        <motion.div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(120,119,198,0.1),transparent_50%)]" />
-      </motion.div>
+    <div className={`min-h-screen flex flex-col ${siteTheme.page}`}>
+      <SiteHeader />
 
-      <div className="fixed inset-0 z-10 pointer-events-none">
-        {BLOG_PARTICLES.map((particle, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-white/20 rounded-full"
-            initial={particle.initial}
-            animate={particle.animate}
-            transition={{
-              duration: particle.duration,
-              repeat: Number.POSITIVE_INFINITY,
-              repeatType: "reverse",
-              ease: "linear",
-            }}
-          />
-        ))}
-      </div>
+      {backHref && (
+        <div className="w-full border-b-2 border-black bg-paper-2">
+          <div className="w-full px-[5%] lg:px-10 xl:px-14 py-3">
+            <Link
+              href={backHref}
+              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider font-bold hover:underline"
+            >
+              <ArrowLeft className="w-4 h-4 shrink-0" />
+              {backLabel}
+            </Link>
+          </div>
+        </div>
+      )}
 
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="relative z-30 px-4 pt-8 max-w-5xl mx-auto flex items-center justify-between gap-4"
-      >
-        <Link
-          href={backHref}
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group"
-        >
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-          {backLabel}
-        </Link>
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors shrink-0"
-        >
-          <img
-            src={blogAuthor.image}
-            alt={blogAuthor.name}
-            className="w-8 h-8 rounded-full object-cover border border-gray-700/80"
-            width={32}
-            height={32}
-          />
-          <span className="text-sm hidden sm:inline">{blogAuthor.siteName}</span>
-        </Link>
-      </motion.div>
+      <main className="flex-1 w-full">{children}</main>
 
-      <div className="relative z-20">{children}</div>
-    </motion.div>
+      <SiteFooter />
+      <Chatbot />
+    </div>
   )
 }

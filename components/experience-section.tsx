@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Calendar, MapPin, TrendingUp } from "lucide-react"
+import { siteTheme } from "@/lib/site-theme"
 
 export default function ExperienceSection() {
   const experiences = [
@@ -18,7 +19,6 @@ export default function ExperienceSection() {
         "Integrated OCR and object-detection for in-game telemetry",
       ],
       tech: ["Python", "LLMs", "LangChain", "RAG", "YOLO", "OCR"],
-      color: "from-purple-500 to-pink-500",
     },
     {
       company: "SMA (The Program Lifecycle Company)",
@@ -33,7 +33,6 @@ export default function ExperienceSection() {
         "Worked on prompt engineering and end-to-end agent orchestration",
       ],
       tech: ["Python", "AI Agents", "LangChain", "RAG", "LLMs"],
-      color: "from-blue-500 to-cyan-500",
     },
     {
       company: "Damsonic",
@@ -47,7 +46,6 @@ export default function ExperienceSection() {
         "Built evaluation pipelines and reproducible training scripts",
       ],
       tech: ["Python", "Pandas", "NumPy", "Scikit-Learn", "TensorFlow"],
-      color: "from-green-500 to-emerald-500",
     },
     {
       company: "Sabudh Foundation",
@@ -70,17 +68,16 @@ export default function ExperienceSection() {
         "Matplotlib",
         "Seaborn",
       ],
-      color: "from-amber-500 to-yellow-500",
     },
     {
       company: "Alphanumeric Ideas",
       role: "Web Development Intern",
       duration: "Jun 2023 - Aug 2023 · 3 mos",
       location: "Mohali district, India · On-site",
-      description: "Worked on frontend and small backend tasks; improved UI and implemented algorithmic features.",
+      description:
+        "Worked on frontend and small backend tasks; improved UI and implemented algorithmic features.",
       achievements: ["Delivered frontend components and assisted with backend integration"],
       tech: ["HTML", "CSS", "JavaScript", "Algorithms", "Communication"],
-      color: "from-gray-500 to-slate-500",
     },
   ]
 
@@ -89,124 +86,105 @@ export default function ExperienceSection() {
       role: "NCC B Certificate Holder",
       organization: "National Cadet Corps",
       duration: "2021 - Present",
-      description: "NCC 'B' grade certificate holder with excellence in physical training and discipline",
+      description:
+        "NCC 'B' grade certificate holder with excellence in physical training and discipline",
     },
     {
       role: "Codeforces Pupil",
       organization: "Codeforces",
       duration: "Ongoing",
-      description: "Achieved maximum rating of 1374 (Pupil) on Codeforces competitive programming platform",
+      description:
+        "Achieved maximum rating of 1374 (Pupil) on Codeforces competitive programming platform",
     },
   ]
 
   return (
-    <section className="fade-in-section py-20 px-4 relative">
+    <section id="experience" className="py-16 md:py-24 px-[5%] bg-paper border-b-2 border-black">
       <div className="max-w-6xl mx-auto">
-        <motion.h2
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-5xl font-bold text-center mb-16 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent"
-        >
-          Experience
-        </motion.h2>
+        <div className="relative mb-10 md:mb-14">
+          <span className="section-number absolute -top-4 left-0 pointer-events-none" aria-hidden>
+            03
+          </span>
+          <h2 className="editorial-section-title relative pt-8 md:pt-12">Experience</h2>
+          <p className="text-ink-3 font-mono text-sm mt-4 max-w-2xl">
+            Internships across AI, data science, and web — newest first.
+          </p>
+        </div>
 
-        {/* Professional Experience */}
-        <div className="mb-16">
-          <h3 className="text-3xl font-semibold mb-8 text-white">Professional Experience</h3>
-          <div className="space-y-8">
-            {experiences.map((exp, index) => (
-              <motion.div
-                key={index}
-                className="group relative interactive"
-                initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <div className="relative p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 overflow-hidden">
-                  {/* Background Gradient */}
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-br ${exp.color} opacity-5 group-hover:opacity-15 transition-opacity duration-300`}
-                  />
-
-                  <div className="relative z-10">
-                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4 gap-4">
-                      <div className="flex-1">
-                        <h4 className="text-2xl font-bold text-white mb-2">{exp.role}</h4>
-                        <h5 className="text-xl text-blue-400 mb-2">{exp.company}</h5>
-                        <p className="text-gray-300 mb-4">{exp.description}</p>
-                      </div>
-                      <div className="flex flex-col lg:items-end lg:text-right">
-                        <div className="flex items-center lg:justify-end text-gray-400 mb-2">
-                          <Calendar size={16} className="mr-2 flex-shrink-0" />
-                          <span>{exp.duration}</span>
-                        </div>
-                        <div className="flex items-center lg:justify-end text-gray-400">
-                          <MapPin size={16} className="mr-2 flex-shrink-0" />
-                          <span>{exp.location}</span>
-                        </div>
-                      </div>
+        <div className="editorial-timeline-line ml-3 md:ml-4 pl-8 md:pl-10 space-y-0">
+          {experiences.map((exp, index) => (
+            <motion.article
+              key={index}
+              className="relative pb-10 last:pb-0 interactive"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.06 }}
+              viewport={{ once: true }}
+            >
+              <span className="absolute -left-[41px] md:-left-[49px] top-2 editorial-timeline-dot" aria-hidden />
+              <div className={siteTheme.cardEditorial}>
+                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4 gap-4">
+                  <div className="flex-1">
+                    <h4 className="text-xl font-bold text-ink mb-1">{exp.role}</h4>
+                    <p className="font-mono text-sm font-bold uppercase mb-3">{exp.company}</p>
+                    <p className="text-ink-3 leading-relaxed">{exp.description}</p>
+                  </div>
+                  <div className="flex flex-col lg:items-end lg:text-right text-sm text-ink-3 shrink-0 gap-1">
+                    <div className="flex items-center lg:justify-end gap-2">
+                      <Calendar size={14} />
+                      <span>{exp.duration}</span>
                     </div>
-
-                    {/* Achievements */}
-                    <div className="mb-6">
-                      <h6 className="text-lg font-semibold text-white mb-3 flex items-center">
-                        <TrendingUp size={18} className="mr-2 text-green-400" />
-                        Key Achievements
-                      </h6>
-                      <div className="grid md:grid-cols-2 gap-3">
-                        {exp.achievements.map((achievement, i) => (
-                          <motion.div
-                            key={i}
-                            className="flex items-start text-gray-300"
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.5 + i * 0.1 }}
-                          >
-                            <span className="text-green-400 mr-2 mt-1">•</span>
-                            {achievement}
-                          </motion.div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Tech Stack */}
-                    <div className="flex flex-wrap gap-2">
-                      {exp.tech.map((tech) => (
-                        <motion.span
-                          key={tech}
-                          className="px-3 py-1 text-sm bg-white/10 rounded-full text-white"
-                          whileHover={{ scale: 1.1, backgroundColor: "rgba(255, 255, 255, 0.2)" }}
-                        >
-                          {tech}
-                        </motion.span>
-                      ))}
+                    <div className="flex items-center lg:justify-end gap-2">
+                      <MapPin size={14} />
+                      <span>{exp.location}</span>
                     </div>
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
+
+                <div className="mb-5 pt-4 border-t border-paper-3">
+                  <h6 className="text-xs font-semibold text-ink mb-3 flex items-center uppercase tracking-wide">
+                    <TrendingUp size={14} className="mr-2" />
+                    Key achievements
+                  </h6>
+                  <ul className="grid md:grid-cols-2 gap-2 text-ink-3 text-sm">
+                    {exp.achievements.map((achievement, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="font-mono">→</span>
+                        {achievement}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {exp.tech.map((tech) => (
+                    <span key={tech} className="editorial-tag">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.article>
+          ))}
         </div>
 
-        {/* Leadership Experience */}
-        <div>
-          <h3 className="text-3xl font-semibold mb-8 text-white">Leadership & Responsibilities</h3>
-          <div className="grid md:grid-cols-2 gap-6">
+        <div className="mt-16 pt-12 border-t border-paper-3">
+          <p className="editorial-eyebrow mb-6">Beyond work</p>
+          <h3 className="text-xl font-bold text-ink mb-8 font-mono uppercase tracking-wider">Also</h3>
+          <div className="grid md:grid-cols-2 gap-5">
             {leadership.map((role, index) => (
               <motion.div
                 key={index}
-                className="p-6 rounded-xl bg-gradient-to-br from-purple-500/10 to-blue-500/10 backdrop-blur-sm border border-white/10 interactive"
-                initial={{ opacity: 0, y: 50 }}
+                className={`${siteTheme.cardEditorial} interactive`}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
               >
-                <h4 className="text-xl font-bold text-white mb-2">{role.role}</h4>
-                <h5 className="text-purple-400 mb-2">{role.organization}</h5>
-                <p className="text-gray-400 text-sm mb-3">{role.duration}</p>
-                <p className="text-gray-300">{role.description}</p>
+                <h4 className="text-lg font-bold text-ink mb-2">{role.role}</h4>
+                <p className="font-mono text-sm font-bold uppercase mb-2">{role.organization}</p>
+                <p className="text-ink-3 text-sm mb-3">{role.duration}</p>
+                <p className="text-ink-3 text-sm leading-relaxed">{role.description}</p>
               </motion.div>
             ))}
           </div>

@@ -127,7 +127,7 @@ export default function Chatbot() {
       >
         <Button
           onClick={() => setIsOpen(!isOpen)}
-          className="h-14 w-14 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 shadow-lg hover:shadow-xl transition-all duration-300"
+          className="h-14 w-14 rounded-none bg-cyan hover:bg-cyan-dark text-black border-2 border-black neo-shadow"
           size="icon"
         >
           <AnimatePresence mode="wait">
@@ -164,17 +164,17 @@ export default function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-24 right-6 z-50 w-96 h-[600px] bg-black/95 backdrop-blur-lg border border-white/10 rounded-lg shadow-2xl flex flex-col overflow-hidden"
+            className="fixed bottom-24 right-6 z-50 w-[min(100vw-2rem,24rem)] h-[min(100vh-8rem,36rem)] bg-paper border-2 border-black neo-shadow flex flex-col overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-white/10 bg-gradient-to-r from-purple-500/10 to-blue-500/10">
+            <div className="flex items-center justify-between p-4 border-b-2 border-black bg-paper-2">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
-                  <MessageCircle className="h-5 w-5 text-white" />
+                <div className="h-10 w-10 border-2 border-black bg-cyan flex items-center justify-center">
+                  <MessageCircle className="h-5 w-5 text-black" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white">Chat Assistant</h3>
-                  <p className="text-xs text-white/60">Online</p>
+                  <h3 className="font-bold text-ink">Ask about Ranveer</h3>
+                  <p className="text-xs text-ink-3 font-mono">Online · AI assistant</p>
                 </div>
               </div>
             </div>
@@ -193,10 +193,10 @@ export default function Chatbot() {
                     }`}
                   >
                     <div
-                      className={`max-w-[80%] rounded-lg px-4 py-2 ${
+                      className={`max-w-[80%] px-4 py-2 border-2 border-black ${
                         message.sender === "user"
-                          ? "bg-gradient-to-r from-purple-500 to-blue-500 text-white"
-                          : "bg-white/10 text-white border border-white/20"
+                          ? "bg-cyan text-black neo-shadow-sm"
+                          : "bg-paper-2 text-ink"
                       }`}
                     >
                       <p className="text-sm whitespace-pre-wrap break-words">
@@ -213,7 +213,7 @@ export default function Chatbot() {
                 ))}
                 {isLoading && (
                   <div className="flex justify-start">
-                    <div className="bg-white/10 text-white border border-white/20 rounded-lg px-4 py-2">
+                    <div className="bg-paper-2 text-ink border-2 border-black px-4 py-2">
                       <Loader2 className="h-4 w-4 animate-spin" />
                     </div>
                   </div>
@@ -223,7 +223,7 @@ export default function Chatbot() {
             </ScrollArea>
 
             {/* Input */}
-            <div className="p-4 border-t border-white/10 bg-black/50">
+            <div className="p-4 border-t-2 border-black bg-paper">
               <div className="flex gap-2">
                 <Input
                   ref={inputRef}
@@ -231,13 +231,13 @@ export default function Chatbot() {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Type your message..."
-                  className="flex-1 bg-white/5 border-white/20 text-white placeholder:text-white/50 focus-visible:ring-purple-500"
+                  className="flex-1 form-input !py-2"
                   disabled={isLoading}
                 />
                 <Button
                   onClick={sendMessage}
                   disabled={!inputValue.trim() || isLoading}
-                  className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white"
+                  className="bg-cyan hover:bg-cyan-dark text-black border-2 border-black shrink-0 rounded-none"
                   size="icon"
                 >
                   {isLoading ? (
