@@ -267,3 +267,37 @@ html {
 .mono {
   font-family: var(--font-mono), monospace;
 }
+
+@keyframes chat-attention-blink {
+  0%,
+  100% {
+    box-shadow: var(--shadow);
+    border-color: #000;
+    background-color: var(--cyan);
+  }
+  50% {
+    box-shadow: 0 0 0 3px var(--cyan), var(--shadow);
+    border-color: var(--cyan);
+    background-color: #fff;
+  }
+}
+
+@keyframes chat-panel-blink {
+  0%,
+  100% {
+    box-shadow: var(--shadow);
+    outline: 2px solid transparent;
+  }
+  50% {
+    box-shadow: 6px 6px 0 0 #000, 0 0 0 3px var(--cyan);
+    outline: 2px solid var(--cyan);
+  }
+}
+
+.chat-attention-blink {
+  animation: chat-attention-blink 0.9s ease-in-out infinite;
+}
+
+.chat-panel-blink {
+  animation: chat-panel-blink 0.9s ease-in-out infinite;
+}

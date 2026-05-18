@@ -1,4 +1,5 @@
 import { blogAuthor } from "@/lib/blogs/author"
+import AboutTotalExperience from "@/components/about-total-experience"
 
 const HIGHLIGHTS = [
   "Ships AI projects that solve real problems — RAG, agents, vision",
@@ -38,7 +39,7 @@ export default function AboutSection() {
                 computer vision. I care about reliability, not demos: models that work when traffic hits.
               </p>
               <p>
-                Currently interning at Octro; previously built agents and retrieval systems for US startups,
+                Currently member of technical staff at Octro; previously built agents and retrieval systems for US startups,
                 plus data science and web work. I like owning the path from notebook to deployed API.
               </p>
               <p>
@@ -46,6 +47,8 @@ export default function AboutSection() {
                 is Python, FastAPI, LangChain, and React when a UI is needed.
               </p>
             </div>
+
+            <AboutTotalExperience />
           </div>
         </div>
 

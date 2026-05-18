@@ -57,33 +57,38 @@ export default function ProjectsSection() {
     },
     {
       id: 4,
-      title: "RAG-Based Q&A System",
-      description: "Retrieval-Augmented Generation system for intelligent question-answering using LangChain and advanced prompt engineering",
-      tech: ["LangChain", "RAG", "LLMs", "Python", "Vector DB", "Prompt Engineering"],
+      title: "Chat with Website using Gen AI",
+      description:
+        "Streamlit app that scrapes any URL, cleans the text, and lets users chat with website content through a Hugging Face–powered conversational interface.",
+      tech: ["Python", "Streamlit", "Hugging Face", "BeautifulSoup", "Requests", "NLP"],
       features: [
-        "Document retrieval and augmentation",
-        "LLM-powered Q&A",
-        "Multi-document support",
-        "Semantic search capabilities",
-        "Context-aware responses",
-        "Production deployment ready"
+        "Scrapes and cleans text from any URL (strips HTML/CSS tags)",
+        "Interactive chatbot for questions about scraped site content",
+        "Real-time AI responses via Hugging Face transformers",
+        "BeautifulSoup and Requests for reliable web scraping",
+        "Streamlit front-end with Python back-end",
+        "Deployed on Vercel — runnable locally via venv + requirements.txt",
       ],
-      color: "from-orange-500 to-red-500"
+      github: "https://github.com/veer-debug/chat-with-me",
+      liveUrl: "https://chat-with-me-inky.vercel.app",
+      color: "from-orange-500 to-red-500",
     },
     {
       id: 5,
-      title: "ML Model Optimization Pipeline",
-      description: "End-to-end machine learning pipeline for model development, optimization, and deployment with advanced feature engineering",
-      tech: ["Scikit-Learn", "LightGBM", "XGBoost", "Python", "Pandas", "NumPy", "MLflow"],
+      title: "IPL Winning Match Predictor",
+      description:
+        "Streamlit app that forecasts IPL match winners using logistic regression on historical data — team form, player stats, and match conditions.",
+      tech: ["Python", "Streamlit", "Scikit-Learn", "Pandas", "Matplotlib", "Seaborn", "Logistic Regression"],
       features: [
-        "Feature engineering and data preprocessing",
-        "Hyperparameter tuning optimization",
-        "Model validation and cross-validation",
-        "Performance metrics and visualization",
-        "Model versioning and tracking",
-        "Deployment to production environments"
+        "Interactive Streamlit UI for match outcome prediction",
+        "Logistic regression trained on historical IPL match data",
+        "Real-time win probability from key performance metrics",
+        "Data preprocessing and analysis with Pandas",
+        "Visual insights with Matplotlib and Seaborn",
+        "Saved model pipeline (data → train → predict via Streamlit)",
       ],
-      color: "from-yellow-500 to-orange-500"
+      github: "https://github.com/veer-debug/IPL-Winning-Match-Predictor",
+      color: "from-yellow-500 to-orange-500",
     },
     {
       id: 6,

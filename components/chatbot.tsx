@@ -14,9 +14,13 @@ interface Message {
   timestamp: Date
 }
 
+const AUTO_OPEN_DELAY_MS = 700
+const BLINK_DURATION_MS = 10000
+
 export default function Chatbot() {
   const [mounted, setMounted] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  const [isBlinking, setIsBlinking] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
@@ -33,6 +37,24 @@ export default function Chatbot() {
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+
+    const openTimer = window.setTimeout(() => {
+      setIsOpen(true)
+      setIsBlinking(true)
+    }, AUTO_OPEN_DELAY_MS)
+
+    return () => window.clearTimeout(openTimer)
+  }, [mounted])
+
+  useEffect(() => {
+    if (!isBlinking) return
+
+    const stopTimer = window.setTimeout(() => setIsBlinking(false), BLINK_DURATION_MS)
+    return () => window.clearTimeout(stopTimer)
+  }, [isBlinking])
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -66,6 +88,7 @@ export default function Chatbot() {
 
     setMessages((prev) => [...prev, userMessage])
     setInputValue("")
+    setIsBlinking(false)
     setIsLoading(true)
 
     try {
@@ -116,6 +139,13 @@ export default function Chatbot() {
     }
   }
 
+  const toggleChat = () => {
+    setIsOpen((open) => !open)
+    setIsBlinking(false)
+  }
+
+  const stopBlink = () => setIsBlinking(false)
+
   return (
     <>
       {/* Chat Button */}
@@ -126,9 +156,12 @@ export default function Chatbot() {
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
       >
         <Button
-          onClick={() => setIsOpen(!isOpen)}
-          className="h-14 w-14 rounded-none bg-cyan hover:bg-cyan-dark text-black border-2 border-black neo-shadow"
+          onClick={toggleChat}
+          className={`h-14 w-14 rounded-none bg-cyan hover:bg-cyan-dark text-black border-2 border-black neo-shadow ${
+            isBlinking && !isOpen ? "chat-attention-blink" : ""
+          }`}
           size="icon"
+          aria-label={isOpen ? "Close chat" : "Open chat"}
         >
           <AnimatePresence mode="wait">
             {isOpen ? (
@@ -164,7 +197,9 @@ export default function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-24 right-6 z-50 w-[min(100vw-2rem,24rem)] h-[min(100vh-8rem,36rem)] bg-paper border-2 border-black neo-shadow flex flex-col overflow-hidden"
+            className={`fixed bottom-24 right-6 z-50 w-[min(100vw-2rem,24rem)] h-[min(100vh-8rem,36rem)] bg-paper border-2 border-black neo-shadow flex flex-col overflow-hidden ${
+              isBlinking ? "chat-panel-blink" : ""
+            }`}
           >
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b-2 border-black bg-paper-2">
@@ -229,6 +264,7 @@ export default function Chatbot() {
                   ref={inputRef}
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
+                  onFocus={stopBlink}
                   onKeyPress={handleKeyPress}
                   placeholder="Type your message..."
                   className="flex-1 form-input !py-2"

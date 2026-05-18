@@ -1,8 +1,45 @@
 import { siteTheme } from "@/lib/site-theme"
 
 const SKILLS = [
-  "Python", "LangChain", "RAG", "LLMs", "FastAPI", "Flask", "TensorFlow", "YOLO",
-  "PostgreSQL", "Docker", "React", "Next.js", "OpenCV", "Git",
+  "Python",
+  "JavaScript",
+  "C/C++",
+  "SQL",
+  "Linux",
+  "VS Code",
+  "Jupyter",
+  "Colab",
+  "RAG",
+  "LangChain",
+  "LangGraph",
+  "AI Agents",
+  "Computer Vision",
+  "YOLO",
+  "Scikit-Learn",
+  "PySpark",
+  "NumPy",
+  "Pandas",
+  "FastAPI",
+  "Flask",
+  "Streamlit",
+  "Authentication",
+  "JWT",
+  "MySQL",
+  "Git",
+  "MCP Server",
+  "A2A",
+  "GitHub",
+  "Matplotlib",
+  "Seaborn",
+  "Plotly",
+  "HTML",
+  "CSS",
+  "Tailwind CSS",
+  "Machine Learning",
+  "Deep Learning",
+  "API Development",
+  "Data Visualization",
+  "Data Processing",
 ]
 
 export default function SkillsSection() {
@@ -17,7 +54,7 @@ export default function SkillsSection() {
         </div>
 
         <p className={`${siteTheme.sectionSubtitle} mb-10 max-w-2xl`}>
-          Tools I reach for weekly — not a certification laundry list.
+          Skills &amp; tools — languages, ML/AI stack, backends, and data workflows.
         </p>
 
         <div className="flex flex-wrap gap-2 md:gap-3">
