@@ -32,7 +32,18 @@ export default function HeroSection() {
     "# Deploying Autonomous AI Agents"
   ]
 
-
+  const techStack = [
+    { name: "Python", icon: "🐍", color: "text-yellow-400", glow: "shadow-yellow-400/50" },
+    { name: "LangChain", icon: "🔗", color: "text-blue-400", glow: "shadow-blue-400/50" },
+    { name: "LLMs", icon: "🧠", color: "text-purple-400", glow: "shadow-purple-400/50" },
+    { name: "YOLO", icon: "👁️", color: "text-cyan-400", glow: "shadow-cyan-400/50" },
+    { name: "RAG", icon: "📚", color: "text-green-400", glow: "shadow-green-400/50" },
+    { name: "FastAPI", icon: "⚡", color: "text-green-500", glow: "shadow-green-500/50" },
+    { name: "Flask", icon: "🧩", color: "text-amber-400", glow: "shadow-amber-400/50" },
+    { name: "PostgreSQL", icon: "🗄️", color: "text-blue-600", glow: "shadow-blue-600/50" },
+    { name: "TensorFlow", icon: "📊", color: "text-orange-400", glow: "shadow-orange-400/50" },
+    { name: "SQL", icon: "🗄️", color: "text-blue-500", glow: "shadow-blue-500/50" },
+  ]
 
   useEffect(() => {
     // Register GSAP plugin on client side only
@@ -62,7 +73,21 @@ export default function HeroSection() {
         ease: "none",
       })
 
-      // Animate particles
+      gsap.utils.toArray(".tech-icon").forEach((icon: Element, i) => {
+        gsap.set(icon, { transformOrigin: "center center" })
+        gsap.to(icon, {
+          y: "random(-30, 30)",
+          x: "random(-20, 20)",
+          rotation: "random(-20, 20)",
+          scale: "random(0.8, 1.2)",
+          duration: "random(3, 6)",
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          delay: i * 0.3,
+        })
+      })
+
       gsap.utils.toArray(".particle").forEach((particle: any, i) => {
         gsap.to(particle, {
           y: "random(-100, 100)",
@@ -101,11 +126,7 @@ export default function HeroSection() {
             <div
               key={i}
               className="particle absolute w-1 h-1 bg-cyan-400 rounded-full"
-              style={{
-                left: `${particle.left}%`,
-                top: `${particle.top}%`,
-                animationDelay: `${particle.delay}s`,
-              }}
+              style={particle.style}
             />
           ))}
         </div>
@@ -125,10 +146,46 @@ export default function HeroSection() {
         </div>
       </div>
 
+      {/* Floating tech stack — hover to highlight (Python, TensorFlow, etc.) */}
+      <motion.div className="absolute inset-0 z-[1] pointer-events-none hidden md:block">
+        {techStack.map((tech, index) => (
+          <motion.div
+            key={tech.name}
+            className={`tech-icon absolute pointer-events-auto ${tech.color} opacity-25 hover:opacity-100 transition-opacity duration-300`}
+            style={{
+              left: `${8 + (index % 4) * 22}%`,
+              top: `${12 + Math.floor(index / 4) * 28}%`,
+            }}
+            whileHover={{
+              scale: 1.2,
+              filter: "drop-shadow(0 0 18px currentColor)",
+            }}
+            transition={{ type: "spring", stiffness: 400, damping: 18 }}
+          >
+            <motion.div
+              className={`p-3 rounded-xl bg-gray-900/60 backdrop-blur-sm border border-gray-700/50 ${tech.glow} shadow-lg cursor-default`}
+              animate={{ opacity: [0.7, 1, 0.7] }}
+              transition={{ duration: 3 + (index % 3), repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+              whileHover={{ scale: 1.05, borderColor: "rgba(6, 182, 212, 0.4)" }}
+            >
+              <motion.div
+                className="text-xl mb-1"
+                whileHover={{ scale: 1.15 }}
+                transition={{ type: "spring", stiffness: 500 }}
+              >
+                {tech.icon}
+              </motion.div>
+              <motion.div className="text-xs font-semibold tracking-wide" whileHover={{ scale: 1.08 }}>
+                {tech.name}
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        ))}
+      </motion.div>
 
       {/* Elegant Code Snippet */}
       <motion.div
-        className="absolute top-20 right-10 hidden lg:block"
+        className="absolute top-20 right-10 hidden lg:block z-20"
         initial={{ opacity: 0, x: 100 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1, delay: 1 }}
@@ -154,7 +211,7 @@ export default function HeroSection() {
 
 
       {/* Main Content */}
-      <div className="text-center z-10 px-4">
+      <div className="relative text-center z-10 px-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
