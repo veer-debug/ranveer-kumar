@@ -1,0 +1,361 @@
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="blog-wrap blog-wrap--nav">
+    <a href="/" class="nav-brand">
+      <img
+        src="/ranveer1.png"
+        alt="Ranveer Kumar"
+        class="nav-avatar"
+        width="32"
+        height="32"
+      />
+      <span class="nav-logo">Ranveer<span>.</span>dev</span>
+    </a>
+    <div class="nav-meta">
+      <span class="nav-tag">System Design</span>
+      <span>10 min read</span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <p class="hero-eyebrow">Infrastructure · May 2026</p>
+  <h1>Load Balancer Explained: The <em>Traffic Police</em> of the Internet</h1>
+  <p class="hero-sub">
+    Imagine millions of users hitting your app at once. If every request lands on one server, that server dies. A load balancer sits in the middle and spreads traffic across many backends.
+  </p>
+  <div class="hero-byline">
+    <img
+      src="/ranveer1.png"
+      alt="Ranveer Kumar"
+      class="avatar-sm"
+      width="40"
+      height="40"
+    />
+    <div class="byline-text">
+      <span class="byline-name">Ranveer Kumar</span> · Backend Engineer &amp; System Design Enthusiast
+    </div>
+  </div>
+</header>
+
+<!-- CONTENT -->
+<div class="layout">
+
+  <div class="prose">
+    <p>
+      A <strong>load balancer</strong> distributes incoming requests across multiple servers so no single machine gets overloaded. It is one of the first things you add when a system needs to scale beyond one box.
+    </p>
+    <p>
+      Think of a supermarket: one cashier means a long queue. Several cashiers with someone directing customers to the shortest line keeps things moving. That director is the load balancer.
+    </p>
+  </div>
+
+  <h2>Why do we need a load balancer?</h2>
+
+  <div class="versus">
+    <div class="vs-col left">
+      <div class="vs-heading">Without a load balancer</div>
+      <ul class="vs-list">
+        <li><span class="vs-check">✗</span> One server becomes overloaded</li>
+        <li><span class="vs-check">✗</span> High latency and failed requests</li>
+        <li><span class="vs-check">✗</span> Downtime when traffic spikes</li>
+        <li><span class="vs-check">✗</span> Hard to scale horizontally</li>
+      </ul>
+    </div>
+    <div class="vs-col right">
+      <div class="vs-heading">With a load balancer</div>
+      <ul class="vs-list">
+        <li><span class="vs-check">✓</span> Traffic spread evenly</li>
+        <li><span class="vs-check">✓</span> Better performance under load</li>
+        <li><span class="vs-check">✓</span> High availability</li>
+        <li><span class="vs-check">✓</span> Fault tolerance and easier scale-out</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Basic architecture</h2>
+
+  <figure class="architecture-diagram architecture-diagram--light">
+    <img
+      src="/blogs/load-balancer-ha-failover.png"
+      alt="User request flows through DNS and load balancer to application servers, with failed server removed from rotation"
+      loading="lazy"
+      width="1024"
+      height="559"
+    />
+    <figcaption>Users → DNS → load balancer → app servers (with health checks and failover)</figcaption>
+  </figure>
+
+  <div class="prose">
+    <p>
+      The load balancer picks which backend handles each request. If one server fails, health checks remove it from the pool and traffic goes only to healthy machines.
+    </p>
+  </div>
+
+  <h2>Layer 4 vs Layer 7</h2>
+
+  <div class="versus">
+    <div class="vs-col left">
+      <div class="vs-heading">Layer 4 (Transport)</div>
+      <ul class="vs-list">
+        <li><span class="vs-check">→</span> Routes by IP and TCP/UDP port</li>
+        <li><span class="vs-check">→</span> Fast — does not inspect HTTP body</li>
+        <li><span class="vs-check">→</span> AWS NLB, HAProxy in TCP mode</li>
+        <li><span class="vs-check">→</span> Gaming, streaming, raw throughput</li>
+      </ul>
+    </div>
+    <div class="vs-col right">
+      <div class="vs-heading">Layer 7 (Application)</div>
+      <ul class="vs-list">
+        <li><span class="vs-check">→</span> Routes by URL, headers, cookies</li>
+        <li><span class="vs-check">→</span> Smarter path-based routing</li>
+        <li><span class="vs-check">→</span> NGINX, AWS ALB, Envoy</li>
+        <li><span class="vs-check">→</span> APIs, microservices, web apps</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>
+      At Layer 7 you can send <code>/api/users</code> to the user service and <code>/api/payments</code> to the payment service — same load balancer, different backends.
+    </p>
+  </div>
+
+  <h2>Load balancing algorithms</h2>
+
+  <div class="solution-list">
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">Round Robin</div>
+        <div class="sol-body">Requests go to each server in order: Server1, Server2, Server3, then back to Server1. Simple and common.
+          <br><span class="sol-tag">Default choice</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">Least Connections</div>
+        <div class="sol-body">Traffic goes to the server with the fewest active connections. Better when some requests take longer than others.
+          <br><span class="sol-tag">Variable workload</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">Weighted Round Robin</div>
+        <div class="sol-body">Stronger machines get more traffic. If Server1 has weight 5 and Server2 has weight 2, Server1 receives more requests.
+          <br><span class="sol-tag">Mixed capacity</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">IP Hash</div>
+        <div class="sol-body">The same client IP always hits the same server. Useful for session stickiness and caching.
+          <br><span class="sol-tag">Session affinity</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Health checks and sticky sessions</h2>
+  <div class="prose">
+    <p>
+      Load balancers ping backends on an interval. If a server stops responding, it is removed from rotation until it recovers. Users keep getting served by healthy nodes only.
+    </p>
+    <p>
+      <strong>Sticky sessions</strong> pin a user to one server — helpful for shopping carts or in-memory login state. Too much stickiness hurts even load and makes scaling harder; Redis or stateless APIs are usually better at scale.
+    </p>
+  </div>
+
+  <h2>Reverse proxy vs load balancer</h2>
+
+  <div class="versus">
+    <div class="vs-col left">
+      <div class="vs-heading">Reverse proxy</div>
+      <ul class="vs-list">
+        <li><span class="vs-check">→</span> Sits in front of servers</li>
+        <li><span class="vs-check">→</span> Hides backend infrastructure</li>
+        <li><span class="vs-check">→</span> Can cache and compress responses</li>
+      </ul>
+    </div>
+    <div class="vs-col right">
+      <div class="vs-heading">Load balancer</div>
+      <ul class="vs-list">
+        <li><span class="vs-check">→</span> Main job is distributing traffic</li>
+        <li><span class="vs-check">→</span> Focus on availability and scale</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>
+      NGINX, Envoy, and HAProxy can act as both. In practice the line blurs — what matters is whether you need routing, TLS termination, caching, or pure distribution.
+    </p>
+  </div>
+
+  <h2>Hardware vs software</h2>
+
+  <div class="versus">
+    <div class="vs-col left">
+      <div class="vs-heading">Hardware</div>
+      <ul class="vs-list">
+        <li><span class="vs-check">✓</span> Very high throughput (e.g. F5 BIG-IP)</li>
+        <li><span class="vs-check">✗</span> Expensive appliances</li>
+      </ul>
+    </div>
+    <div class="vs-col right">
+      <div class="vs-heading">Software</div>
+      <ul class="vs-list">
+        <li><span class="vs-check">✓</span> NGINX, HAProxy, Envoy</li>
+        <li><span class="vs-check">✓</span> Cheap, flexible, cloud-native</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Global load balancing and Kubernetes</h2>
+  <div class="prose">
+    <p>
+      For users worldwide, <strong>global load balancing</strong> sends traffic to the nearest region — India to Mumbai, US to Virginia, Europe to Frankfurt — so latency stays low.
+    </p>
+    <p>
+      In microservices, traffic often flows: Client → API Gateway → Load Balancer → services. In <strong>Kubernetes</strong>, a Service load-balances across pods; Ingress adds Layer 7 path rules like <code>/api</code> → backend-api.
+    </p>
+  </div>
+
+  <h2>Popular load balancers</h2>
+
+  <div class="solution-list">
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">NGINX</div>
+        <div class="sol-body">Web servers, APIs, reverse proxy + LB in one.
+          <br><span class="sol-tag">Most common</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">HAProxy</div>
+        <div class="sol-body">Extremely fast Layer 4 and Layer 7 balancing.
+          <br><span class="sol-tag">High performance</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">Envoy</div>
+        <div class="sol-body">Service mesh sidecars and advanced L7 routing.
+          <br><span class="sol-tag">Cloud native</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">AWS ALB / NLB</div>
+        <div class="sol-body">Managed balancing in AWS — ALB for HTTP, NLB for TCP.
+          <br><span class="sol-tag">Managed</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Challenges with load balancing</h2>
+  <div class="prose">
+    <p>
+      Load balancers solve real problems, but they introduce their own. These are the ones that show up in production and in interviews.
+    </p>
+  </div>
+
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="card-num">01</div>
+      <div class="card-title">Single point of failure</div>
+      <div class="card-body">If the load balancer itself goes down, everything behind it is unreachable. Run paired LBs with failover.</div>
+    </div>
+    <div class="problem-card">
+      <div class="card-num">02</div>
+      <div class="card-title">Session management</div>
+      <div class="card-body">Sticky sessions do not scale well. Prefer shared session stores (Redis) or stateless services.</div>
+    </div>
+    <div class="problem-card">
+      <div class="card-num">03</div>
+      <div class="card-title">Uneven traffic</div>
+      <div class="card-body">Some requests are heavier than others. Round robin alone may not be enough — use least connections.</div>
+    </div>
+    <div class="problem-card">
+      <div class="card-num">04</div>
+      <div class="card-title">Misconfigured health checks</div>
+      <div class="card-body">Too aggressive checks mark healthy servers as down; too loose checks send traffic to broken nodes.</div>
+    </div>
+  </div>
+
+  <blockquote>
+    <p>"A load balancer is only as good as your health checks and your capacity planning behind it."</p>
+  </blockquote>
+
+  <h2>Interview questions</h2>
+
+  <div class="solution-list">
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">Difference between Layer 4 and Layer 7?</div>
+        <div class="sol-body">L4 works on TCP/UDP (IP + port). L7 understands HTTP — URL, headers, cookies — and can route intelligently.</div>
+      </div>
+    </div>
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">What happens if a server dies?</div>
+        <div class="sol-body">Health checks detect failure and remove that server from the pool. Traffic flows only to healthy backends.</div>
+      </div>
+    </div>
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">Why are sticky sessions bad sometimes?</div>
+        <div class="sol-body">They reduce even distribution and make horizontal scaling harder when state lives on one machine.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-label">The bottom line</div>
+    <p>
+      <strong>A load balancer is not optional</strong> once you run more than one server. Without it, scaling is painful and one failure takes down the whole path.
+    </p>
+    <p>
+      With it, you get even distribution, failover, and room to grow. Every large system — from e-commerce to streaming — relies on load balancing behind the scenes.
+    </p>
+  </div>
+
+  <div class="prose">
+    <p>
+      Questions about load balancing in interviews or on the job? Drop a comment below or reach out on LinkedIn.
+    </p>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="blog-wrap blog-wrap--footer">
+    <div class="footer-line">
+      <img
+        src="/ranveer1.png"
+        alt="Ranveer Kumar"
+        class="footer-avatar"
+        width="28"
+        height="28"
+      />
+      <span class="footer-copy">© 2026 Ranveer Kumar</span>
+      <span class="ftag">#SystemDesign</span>
+      <span class="ftag">#LoadBalancing</span>
+      <span class="ftag">#Networking</span>
+      <span class="ftag">#Microservices</span>
+      <span class="ftag">#DevOps</span>
+      <span class="ftag">#Kubernetes</span>
+    </div>
+  </div>
+</footer>

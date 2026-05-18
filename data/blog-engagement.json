@@ -2,7 +2,8 @@
   "views": {
     "system-design/monolithic-vs-microservices": 1,
     "blog/home": 1,
-    "blog/category/system-design": 1
+    "blog/category/system-design": 1,
+    "system-design/load-balancer-explained": 1
   },
   "comments": {
     "system-design/monolithic-vs-microservices": [
