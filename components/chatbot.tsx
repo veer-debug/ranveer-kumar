@@ -155,14 +155,14 @@ export default function Chatbot({ autoOpen = false }: ChatbotProps) {
     <>
       {/* Chat Button */}
       <motion.div
-        className="fixed bottom-6 right-6 z-50"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50"
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
       >
         <Button
           onClick={toggleChat}
-          className={`h-14 w-14 rounded-none bg-cyan hover:bg-cyan-dark text-black border-2 border-black neo-shadow ${
+          className={`h-12 w-12 sm:h-14 sm:w-14 rounded-none bg-cyan hover:bg-cyan-dark text-black border-2 border-black neo-shadow ${
             isBlinking && !isOpen ? "chat-attention-blink" : ""
           }`}
           size="icon"
@@ -177,7 +177,7 @@ export default function Chatbot({ autoOpen = false }: ChatbotProps) {
                 exit={{ rotate: 90, opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <X className="h-6 w-6" />
+                <X className="h-5 w-5 sm:h-6 sm:w-6" />
               </motion.div>
             ) : (
               <motion.div
@@ -187,7 +187,7 @@ export default function Chatbot({ autoOpen = false }: ChatbotProps) {
                 exit={{ rotate: -90, opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <MessageCircle className="h-6 w-6" />
+                <MessageCircle className="h-5 w-5 sm:h-6 sm:w-6" />
               </motion.div>
             )}
           </AnimatePresence>
@@ -202,26 +202,27 @@ export default function Chatbot({ autoOpen = false }: ChatbotProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className={`fixed bottom-24 right-6 z-50 w-[min(100vw-2rem,24rem)] h-[min(100vh-8rem,36rem)] bg-paper border-2 border-black neo-shadow flex flex-col overflow-hidden ${
-              isBlinking ? "chat-panel-blink" : ""
-            }`}
+            className={`fixed z-50 flex flex-col overflow-hidden bg-paper border-2 border-black neo-shadow
+              left-3 right-3 bottom-[4.25rem] h-[min(50dvh,18rem)] max-h-[calc(100dvh-5.5rem)]
+              sm:left-auto sm:right-6 sm:bottom-24 sm:w-[min(100vw-2rem,24rem)] sm:h-[min(70vh,28rem)] sm:max-h-[32rem]
+              ${isBlinking ? "chat-panel-blink" : ""}`}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b-2 border-black bg-paper-2">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 border-2 border-black bg-cyan flex items-center justify-center">
-                  <MessageCircle className="h-5 w-5 text-black" />
+            <motion.div className="flex items-center justify-between p-3 sm:p-4 border-b-2 border-black bg-paper-2 shrink-0">
+              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                <div className="h-8 w-8 sm:h-10 sm:w-10 shrink-0 border-2 border-black bg-cyan flex items-center justify-center">
+                  <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5 text-black" />
                 </div>
-                <div>
-                  <h3 className="font-bold text-ink">Ask about Ranveer</h3>
-                  <p className="text-xs text-ink-3 font-mono">Online · AI assistant</p>
+                <div className="min-w-0">
+                  <h3 className="font-bold text-ink text-sm sm:text-base truncate">Ask about Ranveer</h3>
+                  <p className="text-[10px] sm:text-xs text-ink-3 font-mono">Online · AI assistant</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Messages */}
-            <ScrollArea className="flex-1 p-4">
-              <div className="space-y-4">
+            <ScrollArea className="flex-1 min-h-0 p-3 sm:p-4">
+              <div className="space-y-3 sm:space-y-4">
                 {messages.map((message) => (
                   <motion.div
                     key={message.id}
@@ -233,13 +234,13 @@ export default function Chatbot({ autoOpen = false }: ChatbotProps) {
                     }`}
                   >
                     <div
-                      className={`max-w-[80%] px-4 py-2 border-2 border-black ${
+                      className={`max-w-[85%] sm:max-w-[80%] px-3 py-2 sm:px-4 border-2 border-black ${
                         message.sender === "user"
                           ? "bg-cyan text-black neo-shadow-sm"
                           : "bg-paper-2 text-ink"
                       }`}
                     >
-                      <p className="text-sm whitespace-pre-wrap break-words">
+                      <p className="text-xs sm:text-sm whitespace-pre-wrap break-words">
                         {message.text}
                       </p>
                       <p className="text-xs mt-1 opacity-60">
@@ -263,7 +264,7 @@ export default function Chatbot({ autoOpen = false }: ChatbotProps) {
             </ScrollArea>
 
             {/* Input */}
-            <div className="p-4 border-t-2 border-black bg-paper">
+            <div className="p-3 sm:p-4 border-t-2 border-black bg-paper shrink-0">
               <div className="flex gap-2">
                 <Input
                   ref={inputRef}
@@ -271,14 +272,14 @@ export default function Chatbot({ autoOpen = false }: ChatbotProps) {
                   onChange={(e) => setInputValue(e.target.value)}
                   onFocus={stopBlink}
                   onKeyPress={handleKeyPress}
-                  placeholder="Type your message..."
-                  className="flex-1 form-input !py-2"
+                  placeholder="Type a message…"
+                  className="flex-1 form-input !py-2 !text-sm min-w-0"
                   disabled={isLoading}
                 />
                 <Button
                   onClick={sendMessage}
                   disabled={!inputValue.trim() || isLoading}
-                  className="bg-cyan hover:bg-cyan-dark text-black border-2 border-black shrink-0 rounded-none"
+                  className="h-10 w-10 sm:h-11 sm:w-11 bg-cyan hover:bg-cyan-dark text-black border-2 border-black shrink-0 rounded-none"
                   size="icon"
                 >
                   {isLoading ? (
