@@ -4,6 +4,7 @@ import { randomUUID } from "crypto"
 
 export { BLOG_HOME_ID, getPostId } from "@/lib/blog-ids"
 export type { BlogComment, BlogEngagementData } from "@/lib/blog-engagement-types"
+import { displayNameFromUserId, normalizeUserId } from "@/lib/blog-comment-utils"
 import type { BlogComment, BlogEngagementData } from "@/lib/blog-engagement-types"
 
 const DEFAULT_DATA: BlogEngagementData = { views: {}, comments: {} }
@@ -55,28 +56,39 @@ export async function getTotalViews(): Promise<number> {
 
 export async function getComments(postId: string): Promise<BlogComment[]> {
   const data = await readEngagement()
-  return [...(data.comments[postId] ?? [])].sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-  )
+  return [...(data.comments[postId] ?? [])]
 }
 
 export async function addComment(
   postId: string,
-  name: string,
+  userId: string,
   message: string,
+  options?: { parentId?: string | null; displayName?: string },
 ): Promise<BlogComment> {
-  const trimmedName = name.trim().slice(0, 80)
+  const normalizedId = normalizeUserId(userId)
   const trimmedMessage = message.trim().slice(0, 2000)
+  const trimmedName = options?.displayName?.trim().slice(0, 80)
 
-  if (!trimmedName || !trimmedMessage) {
-    throw new Error("Name and message are required")
+  if (!normalizedId || !trimmedMessage) {
+    throw new Error("User ID and message are required")
   }
 
   const data = await readEngagement()
+  const postComments = data.comments[postId] ?? []
+
+  if (options?.parentId) {
+    const parent = postComments.find((c) => c.id === options.parentId)
+    if (!parent) {
+      throw new Error("Parent comment not found")
+    }
+  }
+
   const comment: BlogComment = {
     id: randomUUID(),
     postId,
-    name: trimmedName,
+    parentId: options?.parentId ?? null,
+    userId: normalizedId,
+    displayName: trimmedName || displayNameFromUserId(normalizedId),
     message: trimmedMessage,
     createdAt: new Date().toISOString(),
   }

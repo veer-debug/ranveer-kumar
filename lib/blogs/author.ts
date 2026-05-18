@@ -3,4 +3,5 @@ export const blogAuthor = {
   role: "AI / ML Developer",
   image: "/ranveer1.png",
   siteName: "Ranveer.dev",
+  userId: "veer-debug",
 }

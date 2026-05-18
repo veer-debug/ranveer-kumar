@@ -1,7 +1,18 @@
 {
   "views": {
     "system-design/monolithic-vs-microservices": 1,
-    "blog/home": 1
+    "blog/home": 1,
+    "blog/category/system-design": 1
   },
-  "comments": {}
+  "comments": {
+    "system-design/monolithic-vs-microservices": [
+      {
+        "id": "d763a9e6-1643-4808-8aa9-266e092fd952",
+        "postId": "system-design/monolithic-vs-microservices",
+        "name": "Muskan",
+        "message": "Microservices don’t remove complexity — they just distribute it across the network.",
+        "createdAt": "2026-05-18T19:33:27.524Z"
+      }
+    ]
+  }
 }

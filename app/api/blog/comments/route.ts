@@ -27,33 +27,44 @@ export async function POST(request: Request) {
       postId?: string
       categoryId?: string
       slug?: string
+      userId?: string
       name?: string
+      displayName?: string
       message?: string
+      parentId?: string | null
     }
 
     const postId =
       body.postId ?? (body.categoryId ? getPostId(body.categoryId, body.slug) : null)
-    const name = body.name?.trim() ?? ""
+    const userId = (body.userId ?? body.name)?.trim() ?? ""
     const message = body.message?.trim() ?? ""
+    const displayName = body.displayName?.trim() ?? ""
+    const parentId = body.parentId ?? null
 
     if (!postId) {
       return NextResponse.json({ error: "postId is required" }, { status: 400 })
     }
 
-    if (!name || !message) {
-      return NextResponse.json({ error: "Name and message are required" }, { status: 400 })
+    if (!userId || !message) {
+      return NextResponse.json({ error: "User ID and message are required" }, { status: 400 })
     }
 
     if (message.length < 3) {
       return NextResponse.json({ error: "Message is too short" }, { status: 400 })
     }
 
-    const comment = await addComment(postId, name, message)
+    const comment = await addComment(postId, userId, message, {
+      parentId,
+      displayName: displayName || undefined,
+    })
     const comments = await getComments(postId)
 
     return NextResponse.json({ postId, comment, comments }, { status: 201 })
   } catch (error) {
     console.error("POST /api/blog/comments", error)
-    return NextResponse.json({ error: "Failed to save comment" }, { status: 500 })
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Failed to save comment" },
+      { status: 500 },
+    )
   }
 }
