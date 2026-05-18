@@ -17,7 +17,12 @@ interface Message {
 const AUTO_OPEN_DELAY_MS = 700
 const BLINK_DURATION_MS = 10000
 
-export default function Chatbot() {
+type ChatbotProps = {
+  /** Auto-open and blink on first load (home page only). */
+  autoOpen?: boolean
+}
+
+export default function Chatbot({ autoOpen = false }: ChatbotProps) {
   const [mounted, setMounted] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [isBlinking, setIsBlinking] = useState(false)
@@ -39,7 +44,7 @@ export default function Chatbot() {
   }, [])
 
   useEffect(() => {
-    if (!mounted) return
+    if (!mounted || !autoOpen) return
 
     const openTimer = window.setTimeout(() => {
       setIsOpen(true)
@@ -47,7 +52,7 @@ export default function Chatbot() {
     }, AUTO_OPEN_DELAY_MS)
 
     return () => window.clearTimeout(openTimer)
-  }, [mounted])
+  }, [mounted, autoOpen])
 
   useEffect(() => {
     if (!isBlinking) return

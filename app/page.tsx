@@ -24,7 +24,7 @@ export default function Portfolio() {
       </main>
 
       <SiteFooter />
-      <Chatbot />
+      <Chatbot autoOpen />
     </div>
   )
 }

@@ -3,7 +3,9 @@
 import { motion } from "framer-motion"
 import BlogLayout from "@/components/blogs/blog-layout"
 import TopicCard from "@/components/blogs/topic-card"
+import BlogVisitorCount from "@/components/blogs/blog-visitor-count"
 import { blogAuthor } from "@/lib/blogs/author"
+import { getPostId } from "@/lib/blog-ids"
 import type { BlogCategory, BlogPost } from "@/lib/blogs/types"
 
 interface BlogCategoryPageProps {
@@ -38,6 +40,9 @@ export default function BlogCategoryPage({ category, topics }: BlogCategoryPageP
             {category.title}
           </h1>
           <p className="text-ink-muted">{category.description}</p>
+          <div className="mt-4">
+            <BlogVisitorCount postId={getPostId(category.id)} trackView />
+          </div>
         </motion.div>
 
         {topics.length === 0 ? (

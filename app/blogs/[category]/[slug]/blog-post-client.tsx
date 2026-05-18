@@ -4,7 +4,10 @@ import { motion } from "framer-motion"
 import { Calendar } from "lucide-react"
 import BlogLayout from "@/components/blogs/blog-layout"
 import BlogContent from "@/components/blogs/blog-content"
+import BlogComments from "@/components/blogs/blog-comments"
+import BlogVisitorCount from "@/components/blogs/blog-visitor-count"
 import { blogAuthor } from "@/lib/blogs/author"
+import { getPostId } from "@/lib/blog-ids"
 import type { BlogCategory, BlogPost } from "@/lib/blogs/types"
 
 interface BlogPostPageProps {
@@ -13,6 +16,8 @@ interface BlogPostPageProps {
 }
 
 export default function BlogPostPage({ category, post }: BlogPostPageProps) {
+  const postId = getPostId(category.id, post.slug)
+
   return (
     <BlogLayout backHref={`/blogs/${category.id}`} backLabel={category.title}>
       <article className="w-full max-w-3xl mx-auto px-[5%] lg:px-10 py-12 pb-24">
@@ -37,7 +42,8 @@ export default function BlogPostPage({ category, post }: BlogPostPageProps) {
           </div>
           <h1 className="text-3xl md:text-4xl font-bold mb-4 text-ink">{post.title}</h1>
           <p className="text-ink-muted text-lg mb-4">{post.description}</p>
-          <div className="flex flex-wrap items-center gap-3 text-sm text-ink-faint">
+          <div className="flex flex-wrap items-center gap-3 text-sm text-ink-3">
+            <BlogVisitorCount postId={postId} trackView />
             {post.publishedAt && (
               <span className="flex items-center gap-1.5">
                 <Calendar className="w-4 h-4" />
@@ -67,6 +73,8 @@ export default function BlogPostPage({ category, post }: BlogPostPageProps) {
         >
           <BlogContent content={post.content ?? ""} />
         </motion.div>
+
+        <BlogComments postId={postId} />
       </article>
     </BlogLayout>
   )

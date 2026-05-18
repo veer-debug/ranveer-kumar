@@ -3,8 +3,10 @@
 import { motion } from "framer-motion"
 import BlogLayout from "@/components/blogs/blog-layout"
 import CategoryCard from "@/components/blogs/category-card"
+import BlogVisitorCount from "@/components/blogs/blog-visitor-count"
 import { blogCategories } from "@/lib/blogs"
 import { blogAuthor } from "@/lib/blogs/author"
+import { BLOG_HOME_ID } from "@/lib/blog-ids"
 
 export default function BlogsPage() {
   return (
@@ -29,6 +31,9 @@ export default function BlogsPage() {
           <p className="text-ink-muted text-lg max-w-2xl mx-auto">
             Longer write-ups on system design and ML — posted when I have something worth sharing.
           </p>
+          <div className="mt-6 flex justify-center">
+            <BlogVisitorCount postId={BLOG_HOME_ID} trackView variant="total" />
+          </div>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
