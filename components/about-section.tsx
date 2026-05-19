@@ -3,7 +3,7 @@ import AboutTotalExperience from "@/components/about-total-experience"
 
 const HIGHLIGHTS = [
   "Ships AI projects that solve real problems — RAG, agents, vision",
-  "Open to AI/ML and product engineering roles",
+  "Owns the path from notebook to deployed API",
   "Enjoys clean interfaces and clean APIs equally",
 ]
 

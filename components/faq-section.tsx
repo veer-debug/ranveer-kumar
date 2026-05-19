@@ -7,10 +7,6 @@ import { siteTheme } from "@/lib/site-theme"
 
 const FAQS = [
   {
-    q: "Are you open to internships?",
-    a: "Yes — especially roles where I can ship ML or backend code, not just experiment in a notebook.",
-  },
-  {
     q: "What do you actually build?",
     a: "Usually Python services plus a model piece: RAG over docs, a vision pipeline, or an agent wired to APIs.",
   },

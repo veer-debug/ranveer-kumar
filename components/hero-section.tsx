@@ -28,8 +28,8 @@ export default function HeroSection() {
             </p>
             <p className="text-ink-3 text-base md:text-lg leading-relaxed max-w-xl mb-10">
               I work across the stack with Python, LangChain, FastAPI, and React — from RAG pipelines and
-              LLM agents to APIs and deployment. Member of technical staff at Octro; open to roles where code
-              ships.
+              LLM agents to APIs and deployment. Member of technical staff at Octro, building production AI
+              systems.
             </p>
 
             <div className="flex flex-wrap gap-4">

@@ -1,11 +1,12 @@
+import "server-only"
+
 import { promises as fs } from "fs"
 import path from "path"
 import { randomUUID } from "crypto"
-
-export { BLOG_HOME_ID, getPostId } from "@/lib/blog-ids"
-export type { BlogComment, BlogEngagementData } from "@/lib/blog-engagement-types"
 import { displayNameFromUserId, normalizeUserId } from "@/lib/blog-comment-utils"
 import type { BlogComment, BlogEngagementData } from "@/lib/blog-engagement-types"
+
+export type { BlogComment, BlogEngagementData } from "@/lib/blog-engagement-types"
 
 const DEFAULT_DATA: BlogEngagementData = { views: {}, comments: {} }
 
