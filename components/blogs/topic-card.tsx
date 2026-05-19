@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { ArrowRight, Calendar } from "lucide-react"
+import { formatBlogDate } from "@/lib/blogs/format-date"
 import type { BlogCategoryId, BlogPost } from "@/lib/blogs/types"
 
 interface TopicCardProps {
@@ -44,11 +45,7 @@ export default function TopicCard({
             {post.publishedAt && (
               <span className="flex items-center gap-1">
                 <Calendar className="w-3.5 h-3.5" />
-                {new Date(post.publishedAt).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}
+                {formatBlogDate(post.publishedAt)}
               </span>
             )}
             {post.tags?.map((tag) => (

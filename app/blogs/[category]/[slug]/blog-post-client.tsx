@@ -7,6 +7,7 @@ import BlogContent from "@/components/blogs/blog-content"
 import BlogComments from "@/components/blogs/blog-comments"
 import BlogVisitorCount from "@/components/blogs/blog-visitor-count"
 import { blogAuthor } from "@/lib/blogs/author"
+import { formatBlogDate } from "@/lib/blogs/format-date"
 import { getPostId } from "@/lib/blog-ids"
 import type { BlogCategory, BlogPost } from "@/lib/blogs/types"
 
@@ -47,7 +48,7 @@ export default function BlogPostPage({ category, post }: BlogPostPageProps) {
             {post.publishedAt && (
               <span className="flex items-center gap-1.5">
                 <Calendar className="w-4 h-4" />
-                {new Date(post.publishedAt).toLocaleDateString("en-US", {
+                {formatBlogDate(post.publishedAt, {
                   year: "numeric",
                   month: "long",
                   day: "numeric",

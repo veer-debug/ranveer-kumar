@@ -1,0 +1,12 @@
+---
+description: Blog publish dates are immutable once set
+globs: content/blogs/**/*
+alwaysApply: false
+---
+
+# Blog publish dates
+
+- Each post’s `publishedAt` in `post.ts` must match `content/blogs/published-dates.lock.json`.
+- **Never change** an existing date in the lock file or `post.ts` when editing content, styling, or refactors.
+- For a **new** post only: set `publishedAt` once and add the same `category/slug → date` entry to the lock file.
+- Run `pnpm run verify:blog-dates` before committing blog changes.

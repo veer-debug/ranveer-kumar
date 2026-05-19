@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "pnpm run verify:blog-dates && next build",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "verify:blog-dates": "node scripts/verify-blog-dates.mjs"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",

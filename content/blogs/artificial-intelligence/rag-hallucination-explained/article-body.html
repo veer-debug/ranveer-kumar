@@ -1,0 +1,344 @@
+<div id="progress-bar"></div>
+
+<nav>
+  <div class="blog-wrap blog-wrap--nav">
+    <a href="/" class="nav-brand">
+      <img src="/ranveer1.png" alt="Ranveer Kumar" class="nav-avatar" width="32" height="32" />
+      <span class="nav-logo">Ranveer<span>.</span>dev</span>
+    </a>
+    <div class="nav-meta">
+      <span class="nav-tag">Artificial Intelligence</span>
+      <span>8 min read</span>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <p class="hero-eyebrow">Deep Dive · Retrieval-Augmented Generation · May 2026</p>
+  <h1>Why RAG <em>Hallucinates</em> — and How to Stop It</h1>
+  <p class="hero-sub">
+    A ground-up guide to understanding, diagnosing, and fixing hallucinations in retrieval-augmented LLM pipelines.
+  </p>
+  <div class="hero-byline">
+    <img src="/ranveer1.png" alt="Ranveer Kumar" class="avatar-sm" width="40" height="40" />
+    <div class="byline-text">
+      <span class="byline-name">Ranveer Kumar</span> · AI Engineer &amp; RAG practitioner
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <div class="prose lede">
+    <p>
+      RAG (Retrieval-Augmented Generation) was supposed to be the cure for hallucination. You ground the model in real documents — so it can&apos;t make things up, right? In practice, <strong>RAG can still hallucinate</strong>, sometimes in ways that are harder to detect than vanilla LLM hallucinations, because the output <em>looks</em> grounded but isn&apos;t.
+    </p>
+    <p>
+      This post walks through <strong>why hallucination still happens inside a RAG pipeline</strong>, the different flavors of it, and a toolkit of practical solutions that actually work.
+    </p>
+  </div>
+
+  <h2>What Is Hallucination in a RAG Context?</h2>
+
+  <div class="prose">
+    <p>
+      In a standard LLM, hallucination means the model generates confident-sounding text that has no basis in reality — it invents facts from the patterns baked into its weights during training.
+    </p>
+    <p>
+      RAG changes the game by injecting retrieved documents as context. The model should now generate answers <em>from</em> those documents. But hallucination doesn&apos;t disappear — it transforms:
+    </p>
+  </div>
+
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="card-num">01</div>
+      <div class="card-title">Faithfulness hallucination</div>
+      <div class="card-body">The answer contradicts or goes beyond what the retrieved documents actually say.</div>
+    </div>
+    <div class="problem-card">
+      <div class="card-num">02</div>
+      <div class="card-title">Retrieval hallucination</div>
+      <div class="card-body">Wrong chunks were fetched — the model answered from irrelevant or outdated context.</div>
+    </div>
+    <div class="problem-card">
+      <div class="card-num">03</div>
+      <div class="card-title">Conflation hallucination</div>
+      <div class="card-body">Multiple retrieved chunks are merged in ways that create facts that don&apos;t exist in any single source.</div>
+    </div>
+    <div class="problem-card">
+      <div class="card-num">04</div>
+      <div class="card-title">Knowledge bleed</div>
+      <div class="card-body">The model ignores the retrieved context entirely and falls back to parametric (training) memory.</div>
+    </div>
+  </div>
+
+  <h2>The RAG Pipeline — Where Things Go Wrong</h2>
+
+  <div class="prose">
+    <p>Every RAG system moves through the same basic stages. Hallucinations can enter at each step:</p>
+  </div>
+
+  <figure class="architecture-diagram architecture-diagram--light">
+    <img
+      src="/blogs/rag-architecture.png"
+      alt="RAG architecture: documents are embedded into a vector database; an agent uses vector and summary tools, calls an LLM, and returns a response to the user"
+      loading="lazy"
+      width="1000"
+      height="563"
+    />
+    <figcaption>Fig 1 — End-to-end RAG architecture: ingestion, retrieval tools, agent, and LLM response</figcaption>
+  </figure>
+
+  <div class="flow-diagram flow-diagram--chain">
+    <p class="diagram-caption" style="width:100%;text-align:left;margin:0 0 1rem;font-weight:600;color:var(--ink)">Fig 2 — Where hallucinations enter the pipeline</p>
+    <span class="flow-node">User query</span>
+    <span class="flow-arrow flow-arrow--h">→</span>
+    <span class="flow-node flow-node--warn">Embed query<small>Bad embedding model?</small></span>
+    <span class="flow-arrow flow-arrow--h">→</span>
+    <span class="flow-node flow-node--warn">Vector search<small>Wrong chunks?</small></span>
+    <span class="flow-arrow flow-arrow--h">→</span>
+    <span class="flow-node flow-node--warn">Context assembly<small>Too much noise?</small></span>
+    <span class="flow-arrow flow-arrow--h">→</span>
+    <span class="flow-node flow-node--warn">LLM generation<small>Ignores context?</small></span>
+    <span class="flow-arrow flow-arrow--h">→</span>
+    <span class="flow-node flow-node--primary">Answer</span>
+  </div>
+
+  <h2>Root Causes, One by One</h2>
+
+  <h3>1. Poor chunking strategy</h3>
+  <div class="prose">
+    <p>
+      Most RAG pipelines split documents by character count or sentence boundary. This is fast but brutal — a chunk can cut a paragraph mid-thought, orphaning context. The model receives a fragment that is <strong>semantically incomplete</strong>, and either hallucinates the missing half or answers incorrectly from the fragment.
+    </p>
+  </div>
+  <div class="callout callout--danger">
+    <p><strong>Example:</strong> A legal clause starts with &quot;This does not apply if…&quot; and the condition is in the next chunk. The model sees only the prohibition and answers as if it&apos;s absolute.</p>
+  </div>
+
+  <h3>2. Retrieval misses — top-K is not enough</h3>
+  <div class="prose">
+    <p>
+      Standard dense retrieval (cosine similarity over embeddings) optimizes for semantic overlap, not relevance to the specific reasoning task. If the most relevant chunk uses different vocabulary than the query, it gets a low similarity score and never enters the context window.
+    </p>
+    <p>
+      The model then answers from whatever was retrieved — and if that context is tangentially related, it may still sound authoritative while being wrong.
+    </p>
+  </div>
+
+  <h3>3. Context window overload</h3>
+  <div class="prose">
+    <p>
+      Increasing K (number of retrieved chunks) adds noise. Models are <strong>disproportionately influenced by text at the beginning and end</strong> of the context window — the &quot;lost in the middle&quot; problem. Critical information buried in chunk #6 of 10 may be ignored entirely.
+    </p>
+  </div>
+  <div class="callout">
+    <p><strong>Key insight:</strong> More context is not always better. Precision beats recall in most RAG settings.</p>
+  </div>
+
+  <h3>4. Parametric memory override</h3>
+  <div class="prose">
+    <p>
+      Large pretrained models have strong prior beliefs from training. If the retrieved documents conflict with those priors — for example, an internal policy that contradicts general best practices — the model often <strong>defaults to its training data</strong> and silently ignores the document.
+    </p>
+  </div>
+
+  <h3>5. Stale or contradictory index</h3>
+  <div class="prose">
+    <p>
+      Knowledge bases are rarely perfectly maintained. Outdated chunks may coexist with updated ones. When the model retrieves both, it must reconcile a contradiction — and often blends them into a synthesized &quot;fact&quot; that matches neither source.
+    </p>
+  </div>
+
+  <h3>6. Weak or absent grounding instructions</h3>
+  <div class="prose">
+    <p>
+      If the system prompt doesn&apos;t explicitly instruct the model to <strong>answer only from the provided context</strong> and to say &quot;I don&apos;t know&quot; when unsure, the model will fill gaps using its weights. This is the most easily fixable root cause — and yet the most commonly overlooked.
+    </p>
+  </div>
+
+  <h2>How to Fix It — A Layered Approach</h2>
+  <div class="prose">
+    <p>No single technique eliminates RAG hallucination. The goal is to reduce it at every layer of the pipeline simultaneously.</p>
+  </div>
+
+  <div class="solution-list">
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">Fix 1 — Smarter chunking</div>
+        <div class="sol-body">
+          Move from character-based to <strong>semantic chunking</strong> — split at natural topic boundaries, not at token limits. Libraries like LangChain&apos;s <code>SemanticChunker</code> or LlamaIndex&apos;s sentence-window node parser detect topic shifts using embedding similarity.
+          <br />Also consider <strong>overlapping chunks</strong>: each chunk shares N sentences with its neighbors, preserving continuity across boundaries.
+          <pre class="code-block code-block--compact"><code># Semantic chunking with overlap (LangChain)
+from langchain.text_splitter import SemanticChunker
+from langchain.embeddings import OpenAIEmbeddings
+
+splitter = SemanticChunker(
+    OpenAIEmbeddings(),
+    breakpoint_threshold_type="percentile",
+    breakpoint_threshold_amount=90,
+)
+chunks = splitter.split_text(document)</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">Fix 2 — Hybrid retrieval (dense + sparse)</div>
+        <div class="sol-body">
+          Combine <strong>dense retrieval</strong> (semantic embedding search) with <strong>sparse retrieval</strong> (BM25/keyword search). Dense retrieval understands meaning; sparse retrieval finds exact terms. Fusing the two with Reciprocal Rank Fusion (RRF) dramatically improves recall.
+          <br />This ensures domain-specific jargon, product names, or numerical values — things embeddings handle poorly — are still found reliably.
+        </div>
+      </div>
+    </div>
+
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">Fix 3 — Reranking</div>
+        <div class="sol-body">
+          After initial retrieval, run a <strong>cross-encoder reranker</strong> (e.g. Cohere Rerank, BGE-Reranker) that scores each candidate chunk against the query more precisely than cosine similarity. Then pass only the top 3–5 reranked chunks to the LLM.
+          <br />This reduces noise in the context window and improves faithfulness because the model has fewer but more relevant passages to reason over.
+        </div>
+      </div>
+    </div>
+
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">Fix 4 — Strict system prompt engineering</div>
+        <div class="sol-body">
+          Ground the model explicitly in the prompt. Be directive, not suggestive:
+          <pre class="code-block code-block--compact"><code>You are a precise assistant. Answer ONLY using the
+context provided below. If the context does not
+contain enough information to answer, say:
+"I don't have enough information to answer this."
+Do NOT use prior knowledge. Do NOT guess.
+
+Context:
+{retrieved_chunks}</code></pre>
+          This single change reduces knowledge-bleed hallucinations substantially in most production systems.
+        </div>
+      </div>
+    </div>
+
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">Fix 5 — Citation-forced generation</div>
+        <div class="sol-body">
+          Ask the model to cite the source chunk for every claim it makes. If a claim can&apos;t be cited, it shouldn&apos;t be made. This forces the model to stay within the context and makes hallucinations immediately auditable.
+          <br />Use structured output (JSON) to separate the answer from citations, then validate each citation programmatically against retrieved chunks.
+        </div>
+      </div>
+    </div>
+
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">Fix 6 — Faithfulness evaluation (RAG-as-a-judge)</div>
+        <div class="sol-body">
+          Use a second LLM call to evaluate whether the generated answer is <strong>entailed by the retrieved context</strong> — a pattern popularized by RAGAS and TruLens. Score each response on:
+          <br /><strong>Faithfulness</strong> — is every claim supported by a retrieved chunk?
+          <br /><strong>Answer relevance</strong> — does the answer address the question?
+          <br /><strong>Context precision</strong> — did we retrieve useful chunks, or just noise?
+          <br />Run this in production as a monitoring layer, not only in offline eval.
+        </div>
+      </div>
+    </div>
+
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">Fix 7 — Self-RAG / iterative retrieval</div>
+        <div class="sol-body">
+          In <strong>Self-RAG</strong>, the model learns to decide <em>when</em> to retrieve and <em>whether</em> the retrieved content is sufficient. If it isn&apos;t, it re-queries with a refined search.
+          <br />Simpler variants — like <strong>HyDE</strong> (Hypothetical Document Embeddings), where the LLM generates a hypothetical ideal answer and uses it as the embedding query — can also sharply improve retrieval quality.
+          <br /><span class="sol-tag sol-tag--high">Higher complexity</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Quick reference — techniques vs. hallucination type</h2>
+
+  <div class="table-wrap">
+    <table class="data-table data-table--compact">
+      <thead>
+        <tr>
+          <th>Technique</th>
+          <th>Fixes</th>
+          <th>Complexity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Semantic chunking</td>
+          <td>Faithfulness, conflation</td>
+          <td><span class="tag-pill tag-pill--good">Low</span></td>
+        </tr>
+        <tr>
+          <td>Hybrid retrieval (BM25 + dense)</td>
+          <td>Retrieval miss, knowledge bleed</td>
+          <td><span class="tag-pill tag-pill--good">Low–med</span></td>
+        </tr>
+        <tr>
+          <td>Cross-encoder reranking</td>
+          <td>Retrieval miss, context noise</td>
+          <td><span class="tag-pill tag-pill--good">Medium</span></td>
+        </tr>
+        <tr>
+          <td>Strict system prompt</td>
+          <td>Knowledge bleed, faithfulness</td>
+          <td><span class="tag-pill tag-pill--good">Very low</span></td>
+        </tr>
+        <tr>
+          <td>Citation-forced output</td>
+          <td>All types (detects them)</td>
+          <td><span class="tag-pill tag-pill--good">Low</span></td>
+        </tr>
+        <tr>
+          <td>Faithfulness eval (RAGAS)</td>
+          <td>All types (monitors them)</td>
+          <td><span class="tag-pill tag-pill--good">Medium</span></td>
+        </tr>
+        <tr>
+          <td>Self-RAG / HyDE</td>
+          <td>Retrieval miss, knowledge bleed</td>
+          <td><span class="tag-pill tag-pill--warn">High</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-label">The bottom line</div>
+    <p>
+      RAG does not eliminate hallucination — it changes its shape. Most hallucinations trace back to a small number of fixable failure points: <strong>bad retrieval</strong>, <strong>noisy context</strong>, and <strong>weak grounding instructions</strong>.
+    </p>
+    <p>
+      Start with the three cheapest fixes — strict system prompts, reranking, and forced citations. They give you the highest ROI. Then layer in semantic chunking and hybrid retrieval. Finally, instrument the pipeline with faithfulness evaluation so you stop discovering hallucinations from unhappy users.
+    </p>
+  </div>
+
+  <div class="callout callout--info">
+    <p><strong>Rule of thumb:</strong> Treat each stage of your RAG pipeline as an independent source of hallucination risk. Harden them one by one, measure after each change, and never assume that more context equals better answers.</p>
+  </div>
+
+  <div class="prose">
+    <p>
+      Questions about RAG in production? Drop a comment below or reach out via the contact form.
+    </p>
+  </div>
+
+</div>
+
+<footer>
+  <div class="blog-wrap blog-wrap--footer">
+    <div class="footer-line">
+      <img src="/ranveer1.png" alt="Ranveer Kumar" class="footer-avatar" width="28" height="28" />
+      <span class="footer-copy">© 2026 Ranveer Kumar</span>
+      <span class="ftag">#RAG</span>
+      <span class="ftag">#LLM</span>
+      <span class="ftag">#AIEngineering</span>
+      <span class="ftag">#LangChain</span>
+      <span class="ftag">#Retrieval</span>
+    </div>
+  </div>
+</footer>

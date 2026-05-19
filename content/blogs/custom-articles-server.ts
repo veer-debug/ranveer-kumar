@@ -1,9 +1,11 @@
 import type { ComponentType } from "react"
 import type { BlogCategoryId } from "@/lib/blogs/types"
+import RagHallucinationExplainedArticle from "./artificial-intelligence/rag-hallucination-explained/article"
 import LoadBalancerExplainedArticle from "./system-design/load-balancer-explained/article"
 import MonolithVsMicroservicesArticle from "./system-design/monolithic-vs-microservices/article"
 
 const customArticles: Record<string, ComponentType> = {
+  "artificial-intelligence/rag-hallucination-explained": RagHallucinationExplainedArticle,
   "system-design/load-balancer-explained": LoadBalancerExplainedArticle,
   "system-design/monolithic-vs-microservices": MonolithVsMicroservicesArticle,
 }

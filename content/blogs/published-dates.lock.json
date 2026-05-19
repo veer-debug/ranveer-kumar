@@ -1,0 +1,8 @@
+{
+  "_comment": "Canonical publish dates. Do not edit existing values—only add a new key when publishing a new post.",
+  "posts": {
+    "system-design/load-balancer-explained": "2026-05-18",
+    "system-design/monolithic-vs-microservices": "2026-05-18",
+    "artificial-intelligence/rag-hallucination-explained": "2026-05-19"
+  }
+}

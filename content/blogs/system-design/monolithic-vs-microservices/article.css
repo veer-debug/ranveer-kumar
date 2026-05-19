@@ -859,6 +859,77 @@ blockquote p {
   }
 }
 
+/* ── CALLOUTS ── */
+.monolith-blog-page .callout {
+  border-left: 3px solid var(--accent);
+  background: var(--green-bg);
+  padding: 1.25rem 1.5rem;
+  margin: 1.75rem 0;
+  border-radius: 0 6px 6px 0;
+}
+
+.monolith-blog-page .callout p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--ink-2);
+  line-height: 1.65;
+}
+
+.monolith-blog-page .callout strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.monolith-blog-page .callout--danger {
+  border-color: #e8a09a;
+  background: var(--red-bg);
+}
+
+.monolith-blog-page .callout--info {
+  border-color: var(--accent-2);
+  background: rgba(20, 184, 166, 0.08);
+}
+
+.monolith-blog-page .flow-node--warn {
+  border-color: #e8a09a;
+  background: var(--red-bg);
+  color: #6b2d28;
+}
+
+.monolith-blog-page .flow-node small {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--ink-3);
+}
+
+.monolith-blog-page .sol-tag--high {
+  background: var(--red-bg);
+  color: #6b2d28;
+  border: 1px solid #f0c8c2;
+}
+
+.monolith-blog-page .tag-pill {
+  display: inline-block;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin-right: 4px;
+}
+
+.monolith-blog-page .tag-pill--good {
+  background: var(--green-bg);
+  color: #1a3d2a;
+}
+
+.monolith-blog-page .tag-pill--warn {
+  background: var(--red-bg);
+  color: #6b2d28;
+}
+
 @media (max-width: 600px) {
   .monolith-blog-page .versus { grid-template-columns: 1fr; }
   .monolith-blog-page .vs-col.left { border-right: none; border-bottom: 1px solid var(--paper-3); }
