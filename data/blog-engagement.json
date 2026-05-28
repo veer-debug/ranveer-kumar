@@ -1,11 +1,9 @@
 {
   "views": {
-    "system-design/monolithic-vs-microservices": 1,
-    "blog/home": 2,
-    "blog/category/system-design": 2,
-    "system-design/load-balancer-explained": 1,
-    "blog/category/artificial-intelligence": 1,
-    "artificial-intelligence/rag-hallucination-explained": 1
+    "system-design/monolithic-vs-microservices": 20,
+    "blog/home": 23,
+    "blog/category/system-design": 23,
+    "system-design/load-balancer-explained": 9
   },
   "comments": {
     "system-design/monolithic-vs-microservices": [

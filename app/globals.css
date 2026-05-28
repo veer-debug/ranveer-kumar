@@ -268,18 +268,35 @@ html {
   font-family: var(--font-mono), monospace;
 }
 
-@keyframes chat-attention-blink {
-  0%,
+@keyframes chat-btn-pulse {
+  0% {
+    transform: scale(1);
+    filter: hue-rotate(0deg) drop-shadow(0 0 6px #8b5cf6);
+  }
+  20% {
+    transform: scale(1.18);
+    filter: hue-rotate(60deg) drop-shadow(0 0 10px #f472b6);
+  }
+  40% {
+    transform: scale(0.92);
+    filter: hue-rotate(140deg) drop-shadow(0 0 6px #06b6d4);
+  }
+  60% {
+    transform: scale(1.15);
+    filter: hue-rotate(220deg) drop-shadow(0 0 10px #facc15);
+  }
+  80% {
+    transform: scale(0.95);
+    filter: hue-rotate(300deg) drop-shadow(0 0 6px #34d399);
+  }
   100% {
-    box-shadow: var(--shadow);
-    border-color: #000;
-    background-color: var(--cyan);
+    transform: scale(1);
+    filter: hue-rotate(360deg) drop-shadow(0 0 6px #8b5cf6);
   }
-  50% {
-    box-shadow: 0 0 0 3px var(--cyan), var(--shadow);
-    border-color: var(--cyan);
-    background-color: #fff;
-  }
+}
+
+.chat-btn-pulse {
+  animation: chat-btn-pulse 2.5s ease-in-out infinite;
 }
 
 @keyframes chat-panel-blink {
@@ -294,10 +311,58 @@ html {
   }
 }
 
-.chat-attention-blink {
-  animation: chat-attention-blink 0.9s ease-in-out infinite;
-}
-
 .chat-panel-blink {
   animation: chat-panel-blink 0.9s ease-in-out infinite;
+}
+
+@keyframes finger-travel {
+  0% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+  5% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  55% {
+    top: calc(100% - 3.5rem);
+    left: calc(100% - 3.5rem);
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  75% {
+    top: calc(100% - 3.5rem);
+    left: calc(100% - 3.5rem);
+    transform: translate(-50%, -50%) scale(0.75);
+    opacity: 1;
+  }
+  90% {
+    top: calc(100% - 3.5rem);
+    left: calc(100% - 3.5rem);
+    transform: translate(-50%, -50%) scale(0.75);
+    opacity: 1;
+  }
+  100% {
+    top: calc(100% - 3.5rem);
+    left: calc(100% - 3.5rem);
+    transform: translate(-50%, -50%) scale(0.75);
+    opacity: 0;
+  }
+}
+
+.finger-travel {
+  animation: finger-travel 1.5s ease-in-out forwards;
+}
+
+@keyframes chat-suggestion-pop {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+.chat-suggestion-bubble {
+  animation: chat-suggestion-pop 1.8s ease-in-out infinite;
 }

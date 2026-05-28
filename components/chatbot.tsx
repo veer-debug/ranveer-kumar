@@ -4,8 +4,9 @@ import { useState, useRef, useEffect, useCallback } from "react"
 import { flushSync } from "react-dom"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { MessageCircle, X, Send, Loader2, Trash2, Maximize2, Minimize2 } from "lucide-react"
+import { MessageCircle, X, Send, Loader2, Trash2, Maximize2, Minimize2, MousePointerClick } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
+import Image from "next/image"
 import { ChatMessageContent } from "@/components/chat-message-content"
 import { cn } from "@/lib/utils"
 import { fetchChatReply } from "@/lib/chat-api"
@@ -41,6 +42,12 @@ const GREETING_PROMPT = "hi"
 const GREETING_RETRY_BASE_MS = 1500
 const GREETING_RETRY_MAX_MS = 8000
 
+const SUGGESTION_QUESTIONS = [
+  "Who is Ranveer?",
+  "What are his skills?",
+  "Show me his projects",
+]
+
 function createWelcomeMessage(text: string): Message {
   return {
     id: WELCOME_ID,
@@ -64,6 +71,8 @@ export default function Chatbot({ autoOpen = false }: ChatbotProps) {
   const [mounted, setMounted] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [isBlinking, setIsBlinking] = useState(false)
+  const [showFinger, setShowFinger] = useState(false)
+  const [showSuggestions, setShowSuggestions] = useState(false)
   const [messages, setMessages] = useState<Message[]>(() => [createWelcomeMessage("")])
   const [inputValue, setInputValue] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -114,12 +123,22 @@ export default function Chatbot({ autoOpen = false }: ChatbotProps) {
 
   useEffect(() => {
     if (!mounted || !autoOpen) return
-    const openTimer = window.setTimeout(() => {
-      setIsOpen(true)
-      setIsBlinking(true)
+    const fingerTimer = window.setTimeout(() => {
+      setShowFinger(true)
     }, AUTO_OPEN_DELAY_MS)
-    return () => window.clearTimeout(openTimer)
+    return () => window.clearTimeout(fingerTimer)
   }, [mounted, autoOpen])
+
+  useEffect(() => {
+    if (!showFinger) return
+    // Start blink + suggestions after finger animation (1.5s)
+    const blinkTimer = window.setTimeout(() => {
+      setShowFinger(false)
+      setIsBlinking(true)
+      setShowSuggestions(true)
+    }, 1500)
+    return () => window.clearTimeout(blinkTimer)
+  }, [showFinger])
 
   useEffect(() => {
     if (!isBlinking) return
@@ -340,6 +359,14 @@ export default function Chatbot({ autoOpen = false }: ChatbotProps) {
       return !open
     })
     setIsBlinking(false)
+    setShowSuggestions(false)
+  }
+
+  const handleSuggestionClick = (question: string) => {
+    setShowSuggestions(false)
+    setIsBlinking(false)
+    setIsOpen(true)
+    setInputValue(question)
   }
 
   const toggleFullscreen = () => setIsFullscreen((v) => !v)
@@ -367,12 +394,11 @@ export default function Chatbot({ autoOpen = false }: ChatbotProps) {
         animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
       >
-        <Button
+        <button
           onClick={toggleChat}
-          className={`h-12 w-12 sm:h-14 sm:w-14 rounded-none bg-cyan hover:bg-cyan-dark text-black border-2 border-black neo-shadow ${
-            isBlinking && !isOpen ? "chat-attention-blink" : ""
+          className={`inline-flex cursor-pointer bg-transparent border-none outline-none p-0 m-0 leading-none ${
+            isBlinking && !isOpen ? "chat-btn-pulse" : ""
           }`}
-          size="icon"
           aria-label={isOpen ? "Close chat" : "Open chat"}
         >
           <AnimatePresence mode="wait">
@@ -383,23 +409,59 @@ export default function Chatbot({ autoOpen = false }: ChatbotProps) {
                 animate={{ rotate: 0, opacity: 1 }}
                 exit={{ rotate: 90, opacity: 0 }}
                 transition={{ duration: 0.2 }}
+                className="h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-gradient-to-br from-violet-500 via-cyan-400 to-emerald-400 flex items-center justify-center border-2 border-black shadow-lg"
               >
-                <X className="h-5 w-5 sm:h-6 sm:w-6" />
+                <X className="h-7 w-7 sm:h-8 sm:w-8 text-white" />
               </motion.div>
             ) : (
               <motion.div
                 key="open"
-                initial={{ rotate: 90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: -90, opacity: 0 }}
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
                 transition={{ duration: 0.2 }}
+                className="relative"
               >
-                <MessageCircle className="h-5 w-5 sm:h-6 sm:w-6" />
+                <Image src="/chat-icon.png" alt="Chat" width={80} height={80} className="h-20 w-20 sm:h-24 sm:w-24 object-contain drop-shadow-lg" />
               </motion.div>
             )}
           </AnimatePresence>
-        </Button>
+        </button>
       </motion.div>
+
+      {/* Finger navigating from center of page to chat icon */}
+      {showFinger && !isOpen && (
+        <div className="fixed pointer-events-none z-[60] finger-travel">
+          <Image src="/click-finger.png" alt="Tap" width={80} height={80} style={{ filter: "brightness(0) saturate(100%) invert(72%) sepia(98%) saturate(1500%) hue-rotate(160deg) brightness(104%) contrast(104%)" }} className="h-20 w-20 sm:h-24 sm:w-24 object-contain" />
+        </div>
+      )}
+
+      {/* Floating suggestion questions */}
+      <AnimatePresence>
+        {showSuggestions && !isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.3 }}
+            className="fixed bottom-28 right-4 sm:bottom-36 sm:right-6 z-50 flex flex-col items-end gap-2"
+          >
+            {SUGGESTION_QUESTIONS.map((q, i) => (
+              <motion.button
+                key={q}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ delay: i * 0.12, duration: 0.25 }}
+                onClick={() => handleSuggestionClick(q)}
+                className="chat-suggestion-bubble max-w-[200px] sm:max-w-[240px] text-xs sm:text-sm font-medium px-3 py-2 bg-cyan text-black border-2 border-black neo-shadow-sm cursor-pointer hover:bg-cyan-dark transition-colors whitespace-nowrap"
+              >
+                {q}
+              </motion.button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {isOpen && (
@@ -418,8 +480,8 @@ export default function Chatbot({ autoOpen = false }: ChatbotProps) {
           >
             <div className="flex items-center justify-between gap-2 p-3 sm:p-4 border-b-2 border-black bg-paper-2 shrink-0">
               <motion.div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                <div className="h-8 w-8 sm:h-10 sm:w-10 shrink-0 border-2 border-black bg-cyan flex items-center justify-center">
-                  <MessageCircle className="h-4 w-4 sm:h-5 sm:w-5 text-black" />
+                <div className="h-10 w-10 sm:h-12 sm:w-12 shrink-0 border-2 border-black bg-cyan flex items-center justify-center">
+                  <Image src="/chat-icon.png" alt="Chat" width={28} height={28} className="h-6 w-6 sm:h-7 sm:w-7 object-contain" />
                 </div>
                 <div className="min-w-0">
                   <h3 className="font-bold text-ink text-sm sm:text-base truncate">
