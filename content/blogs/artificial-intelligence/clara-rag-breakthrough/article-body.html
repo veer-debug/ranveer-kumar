@@ -1,0 +1,246 @@
+<div id="progress-bar"></div>
+
+<nav>
+  <div class="blog-wrap blog-wrap--nav">
+    <a href="/" class="nav-brand">
+      <img src="/ranveer1.png" alt="Ranveer Kumar" class="nav-avatar" width="32" height="32" />
+      <span class="nav-logo">Ranveer<span>.</span>dev</span>
+    </a>
+    <div class="nav-meta">
+      <span class="nav-tag">Artificial Intelligence</span>
+      <span>7 min read</span>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <p class="hero-eyebrow">Research Spotlight · Retrieval-Augmented Generation · December 2025</p>
+  <h1>CLaRa: The AI Breakthrough That Makes Smarter, Faster <em>Question Answering</em> Possible</h1>
+  <p class="hero-sub">
+    Bridging retrieval and generation with continuous latent reasoning — compressing documents 32–64x while matching or beating full-text baselines.
+  </p>
+  <div class="hero-byline">
+    <img src="/ranveer1.png" alt="Ranveer Kumar" class="avatar-sm" width="40" height="40" />
+    <div class="byline-text">
+      <span class="byline-name">Jie He, Richard He Bai, Sinead Williamson, Jeff Z. Pan, Navdeep Jaitly, and Yizhe Zhang</span>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <div class="prose lede">
+    <p>
+      Imagine asking a question and getting a precise, accurate answer — not from a chatbot guessing blindly, but from an AI that actually reads, understands, and reasons through real documents. That&apos;s the promise of <strong>Retrieval-Augmented Generation (RAG)</strong>. But until now, RAG systems have been slow, inefficient, and prone to losing important information along the way.
+    </p>
+    <p>
+      Enter <strong>CLaRa — Bridging Retrieval and Generation with Continuous Latent Reasoning</strong> — a groundbreaking new model that changes how AI systems read, compress, and reason over documents.
+    </p>
+  </div>
+
+  <figure class="architecture-diagram architecture-diagram--light">
+    <img
+      src="/blogs/clara-architecture.png"
+      alt="CLaRa architecture: compressor pre-training compresses raw documents into continuous latent tokens; end-to-end training jointly optimizes query reasoning, retrieval via cosine similarity, and answer generation; inference retrieves compressed doc embeddings to answer multi-hop questions"
+      loading="lazy"
+      width="1200"
+      height="675"
+    />
+    <figcaption>Fig 1 — CLaRa training pipeline (left) and end-to-end inference (right): documents are compressed into continuous latent tokens, retrieved via query embeddings, and used to generate answers</figcaption>
+  </figure>
+
+  <h2>The Problem With Existing RAG Systems</h2>
+
+  <div class="prose">
+    <p>
+      Traditional RAG models work like this: retrieve a bunch of documents, feed them all into an AI model, and hope it finds the right answer. Simple in theory, but painful in practice.
+    </p>
+    <p>The two biggest pain points:</p>
+  </div>
+
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="card-num">01</div>
+      <div class="card-title">Long contexts</div>
+      <div class="card-body">Feeding full documents into AI models is slow and expensive.</div>
+    </div>
+    <div class="problem-card">
+      <div class="card-num">02</div>
+      <div class="card-title">Disconnected systems</div>
+      <div class="card-body">The retrieval step and the generation step are trained separately, meaning they don&apos;t always work well together.</div>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>
+      Previous attempts at solving this (like AutoCompressor, XRAG, and LLMLingua-2) tried compressing documents but ran into their own problems — either losing key information or still keeping retrieval and generation as separate, clunky steps.
+    </p>
+  </div>
+
+  <h2>What Makes CLaRa Different?</h2>
+
+  <div class="prose">
+    <p>CLaRa tackles both problems head-on with two core innovations:</p>
+  </div>
+
+  <div class="solution-list">
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">1. Smarter Document Compression</div>
+        <div class="sol-body">
+          CLaRa compresses documents by <strong>32x to 64x</strong> their original size while keeping the essential meaning intact. It doesn&apos;t just summarize surface-level words — it preserves the <em>semantics</em>, the actual meaning needed to answer questions correctly.
+        </div>
+      </div>
+    </div>
+
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">2. Unified Retrieval + Generation</div>
+        <div class="sol-body">
+          Instead of training retrieval and generation separately, CLaRa trains them <strong>together in a shared continuous space</strong>. This means the system learns to find the right documents <em>and</em> generate the right answers as one unified goal — not two disconnected tasks.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2>The Three-Stage Training Approach</h2>
+
+  <div class="prose">
+    <p>CLaRa is built through a carefully designed three-stage training process:</p>
+  </div>
+
+  <div class="solution-list">
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">Stage 1: Compression Pretraining</div>
+        <div class="sol-body">
+          The model learns to compress documents using Q&amp;A pairs and paraphrases as supervision signals. This ensures the compressed representation retains the information needed to answer questions — not just surface-level words.
+        </div>
+      </div>
+    </div>
+
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">Stage 2: Compression Instruction Tuning</div>
+        <div class="sol-body">
+          The compressor is fine-tuned on instruction-following tasks. This stage ensures the compressed vectors are rich enough to generate accurate, helpful answers downstream.
+        </div>
+      </div>
+    </div>
+
+    <div class="solution-item">
+      <div>
+        <div class="sol-title">Stage 3: End-to-End Fine-Tuning</div>
+        <div class="sol-body">
+          Here&apos;s where it all comes together. The retriever (finding documents) and the generator (writing answers) are jointly trained using a single language modeling objective. A <strong>differentiable top-k estimator</strong> makes the whole pipeline trainable end-to-end — no more disjoint optimization.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2>How Well Does It Actually Work?</h2>
+
+  <div class="prose">
+    <p>
+      The results speak for themselves. CLaRa was evaluated on four major question-answering benchmarks:
+    </p>
+    <ul>
+      <li><strong>NQ</strong> (Natural Questions)</li>
+      <li><strong>HotpotQA</strong> (Multi-hop reasoning)</li>
+      <li><strong>MuSiQue</strong> (Complex multi-hop QA)</li>
+      <li><strong>2WikiMultiHopQA</strong> (Wikipedia-based reasoning)</li>
+    </ul>
+  </div>
+
+  <h3>Key Highlights</h3>
+
+  <div class="table-wrap">
+    <table class="data-table data-table--compact">
+      <thead>
+        <tr>
+          <th>What CLaRa Beats</th>
+          <th>By How Much</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>PISCO (Normal Setting)</td>
+          <td>+1.13% average</td>
+        </tr>
+        <tr>
+          <td>PISCO (Oracle Setting)</td>
+          <td>+5.35% average</td>
+        </tr>
+        <tr>
+          <td>LLMLingua-2</td>
+          <td>+5.37% average</td>
+        </tr>
+        <tr>
+          <td>Full uncompressed text baseline</td>
+          <td>+2.36% average (Mistral-7B)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout--info">
+    <p><strong>Key insight:</strong> CLaRa with <strong>32x compression</strong> still matches or beats models reading full, uncompressed documents. That&apos;s remarkable efficiency without sacrificing accuracy.</p>
+  </div>
+
+  <h2>Why This Matters</h2>
+
+  <div class="prose">
+    <p>CLaRa isn&apos;t just a research curiosity — it has real-world implications:</p>
+    <ul>
+      <li><strong>Faster AI systems</strong> that can handle more queries with less compute</li>
+      <li><strong>Lower costs</strong> for deploying RAG-based AI applications</li>
+      <li><strong>Better accuracy</strong> on complex, multi-hop questions that require reasoning across multiple documents</li>
+      <li><strong>A unified framework</strong> that makes future RAG research cleaner and more principled</li>
+    </ul>
+  </div>
+
+  <h2>Who Built CLaRa?</h2>
+
+  <div class="prose">
+    <p>CLaRa was created by a talented team of researchers:</p>
+    <p>
+      <strong>Jie He, Richard He Bai, Sinead Williamson, Jeff Z. Pan, Navdeep Jaitly, and Yizhe Zhang</strong>
+    </p>
+    <p>
+      The full paper is available on arXiv:
+      <a href="https://arxiv.org/abs/2511.18659" target="_blank" rel="noopener noreferrer">arxiv.org/abs/2511.18659</a>
+    </p>
+    <p>The code and models are open-source and available on GitHub and Hugging Face.</p>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-label">Final thoughts</div>
+    <p>
+      CLaRa represents a meaningful leap forward in how AI systems retrieve and reason over information. By compressing documents intelligently and unifying retrieval with generation, it delivers better answers, faster — with far less computational overhead.
+    </p>
+    <p>
+      If you&apos;re building RAG pipelines, doing NLP research, or simply fascinated by how AI systems are getting smarter, CLaRa is absolutely worth exploring.
+    </p>
+  </div>
+
+  <div class="prose">
+    <p>
+      <em>Published December 2025 · Research Paper: arXiv:2511.18659</em>
+    </p>
+  </div>
+
+</div>
+
+<footer>
+  <div class="blog-wrap blog-wrap--footer">
+    <div class="footer-line">
+      <img src="/ranveer1.png" alt="Ranveer Kumar" class="footer-avatar" width="28" height="28" />
+      <span class="footer-copy">© 2026 Ranveer Kumar</span>
+      <span class="ftag">#RAG</span>
+      <span class="ftag">#CLaRa</span>
+      <span class="ftag">#NLP</span>
+      <span class="ftag">#Retrieval</span>
+      <span class="ftag">#Compression</span>
+    </div>
+  </div>
+</footer>

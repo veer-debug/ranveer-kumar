@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "pnpm run verify:blog-dates && next build",
+    "build": "pnpm run verify:blog-dates && next build --webpack",
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
@@ -73,7 +73,7 @@
     "@types/nodemailer": "^6.4.17",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19",
-    "baseline-browser-mapping": "^2.10.32",
+    "baseline-browser-mapping": "^2.10.37",
     "postcss": "^8.5",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.9.3"
