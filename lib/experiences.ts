@@ -22,6 +22,23 @@ export type ProfessionalExperience = {
 
 export const PROFESSIONAL_EXPERIENCES: ProfessionalExperience[] = [
   {
+    id: "curetx",
+    type: "fulltime",
+    company: "Curetx",
+    role: "AI Engineer",
+    start: { year: 2025, month: 12 },
+    end: null,
+    location: "United States · Remote",
+    description:
+      "Working on context engineering, optimization, and prompt/evaluation harness for production LLM systems.",
+    achievements: [
+      "Designed context engineering strategies to improve LLM answer quality",
+      "Optimized inference and retrieval pipelines for latency and cost",
+      "Built and maintained a prompt/evaluation harness for production AI systems",
+    ],
+    tech: ["Python", "LLMs", "Context Engineering", "Prompt Engineering", "RAG", "Optimization"],
+  },
+  {
     id: "octro",
     type: "fulltime",
     company: "Octro Inc.",
