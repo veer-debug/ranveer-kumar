@@ -55,16 +55,16 @@ Ranveer Kumar was born on **26 September 2002** in **Samastipur, Bihar, India**.
 id: profile-current-role
 entity: Ranveer Kumar
 category: profile
-topics: [current job, octro, curetx, employment]
-keywords: current job, where does ranveer work, employer, octro, curetx, ai engineer, member of technical staff, noida, remote, current city
+topics: [current job, octro, curatx, employment]
+keywords: current job, where does ranveer work, employer, octro, curatx, ai engineer, member of technical staff, noida, remote, current city
 ---
 
 Ranveer Kumar currently holds two full-time roles:
 
-1. **AI Engineer at Curetx** (USA · Remote). Started December 2025, present. Works on context engineering, optimization, and prompt/evaluation harness for production LLM systems.
-2. **Member of Technical Staff at Octro Inc.** (Noida, Uttar Pradesh, India · On-site). Started July 2025, present. Works on LLM-powered features, RAG pipelines, production AI for game analytics and automation, OCR, and computer vision (YOLO).
+1. **Member of Technical Staff at Octro Inc.** (Noida, Uttar Pradesh, India · On-site). Started July 2025, present. Works on LLM-powered features, RAG pipelines, production AI for game analytics and automation, OCR, and computer vision (YOLO).
+2. **AI Engineer at Curatx** (USA · Remote). Started December 2025, present. Works on context engineering, optimization, and prompt/evaluation harness for production LLM systems.
 
-**Current location (city):** Noida, Uttar Pradesh, India — lives and works here (on-site at Octro; remote for Curetx).
+**Current location (city):** Noida, Uttar Pradesh, India — lives and works here (on-site at Octro; remote for Curatx).
 
 ---
 id: profile-summary
@@ -76,7 +76,7 @@ keywords: about ranveer, bio, summary, what does ranveer do, AI engineer
 
 Ranveer Kumar is an AI engineer focused on **production systems**: LLM features, RAG pipelines, AI agents, and computer vision. He prioritizes reliability in production—not demos.
 
-Currently **AI Engineer at Curetx** (US, remote) working on context engineering, optimization, and prompt/evaluation harness, and **Member of Technical Staff at Octro Inc.** in Noida, working on LLM-powered features, RAG, and computer vision for production use.
+Currently **Member of Technical Staff at Octro Inc.** in Noida, working on LLM-powered features, RAG, and computer vision for production use, and **AI Engineer at Curatx** (US, remote) working on context engineering, optimization, and prompt/evaluation harness.
 
 Background: autonomous agents and RAG for a US startup (SMA); applied ML at Damsonic; data science at Sabudh Foundation; web development at Alphanumeric Ideas. He owns the full path from notebook → trained model → API → deployment.
 
@@ -114,10 +114,10 @@ Ranveer Kumar's professional career started in **June 2023** (first internship a
 
 Quick stats for Ranveer Kumar: **1+ years** building LLM, RAG, and computer vision in production; **6+ projects**; **15+ technologies** used across roles.
 
-Full-time: Curetx (Dec 2025–present, AI Engineer, USA remote); Octro Inc. (Jul 2025–present, Member of Technical Staff).  
+Full-time: Octro Inc. (Jul 2025–present, Member of Technical Staff); Curatx (Dec 2025–present, AI Engineer, USA remote).  
 Internships: SMA (Apr–Jul 2025), Damsonic (Jan–Jun 2025), Sabudh Foundation (Jul–Dec 2024), Alphanumeric Ideas (Jun–Aug 2023).
 
-Resume summary bullets: AI Engineer at Curetx (US, remote); Member of Technical Staff at Octro; AI internships at TOD-SMA (US), Damsonic, Sabudh; end-to-end pipelines data → model → API → deployment.
+Resume summary bullets: Member of Technical Staff at Octro; AI Engineer at Curatx (US, remote); AI internships at TOD-SMA (US), Damsonic, Sabudh; end-to-end pipelines data → model → API → deployment.
 
 ---
 id: education-btech

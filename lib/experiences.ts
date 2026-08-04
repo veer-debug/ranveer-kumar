@@ -22,9 +22,26 @@ export type ProfessionalExperience = {
 
 export const PROFESSIONAL_EXPERIENCES: ProfessionalExperience[] = [
   {
-    id: "curetx",
+    id: "octro",
     type: "fulltime",
-    company: "Curetx",
+    company: "Octro Inc.",
+    role: "Member of Technical Staff",
+    start: { year: 2025, month: 7 },
+    end: null,
+    location: "Noida, Uttar Pradesh, India · On-site",
+    description:
+    "Worked on LLM-powered features, RAG pipelines and production AI components for game analytics and automation.",
+    achievements: [
+      "Built LLM-based analytics and RAG retrieval components",
+      "Automated game testing flows using Python and vision models",
+      "Integrated OCR and object-detection for in-game telemetry",
+    ],
+    tech: ["Python", "LLMs", "LangChain", "RAG", "YOLO", "OCR"],
+  },
+  {
+    id: "curatx",
+    type: "fulltime",
+    company: "Curatx",
     role: "AI Engineer",
     start: { year: 2025, month: 12 },
     end: null,
@@ -37,23 +54,6 @@ export const PROFESSIONAL_EXPERIENCES: ProfessionalExperience[] = [
       "Built and maintained a prompt/evaluation harness for production AI systems",
     ],
     tech: ["Python", "LLMs", "Context Engineering", "Prompt Engineering", "RAG", "Optimization"],
-  },
-  {
-    id: "octro",
-    type: "fulltime",
-    company: "Octro Inc.",
-    role: "Member of Technical Staff",
-    start: { year: 2025, month: 7 },
-    end: null,
-    location: "Noida, Uttar Pradesh, India · On-site",
-    description:
-      "Worked on LLM-powered features, RAG pipelines and production AI components for game analytics and automation.",
-    achievements: [
-      "Built LLM-based analytics and RAG retrieval components",
-      "Automated game testing flows using Python and vision models",
-      "Integrated OCR and object-detection for in-game telemetry",
-    ],
-    tech: ["Python", "LLMs", "LangChain", "RAG", "YOLO", "OCR"],
   },
   {
     id: "sma",

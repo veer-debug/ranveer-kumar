@@ -77,7 +77,7 @@ export default function ResumeSection() {
               </div>
               <ul className="space-y-2 text-sm text-ink-3 pl-1 md:pl-9">
                 <li className="flex gap-2"><span className="font-mono">→</span>1+ year building LLM, RAG, and computer vision systems in production</li>
-                <li className="flex gap-2"><span className="font-mono">→</span>AI Engineer at Curetx (US, remote) and Member of technical staff at Octro Inc.; AI internships at TOD-SMA (US), Damsonic, and Sabudh Foundation</li>
+                <li className="flex gap-2"><span className="font-mono">→</span>Member of technical staff at Octro Inc. and AI Engineer at Curatx (US, remote); AI internships at TOD-SMA (US), Damsonic, and Sabudh Foundation</li>
                 <li className="flex gap-2"><span className="font-mono">→</span>End-to-end pipelines: data → model → API → deployment</li>
               </ul>
             </div>
