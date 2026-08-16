@@ -95,7 +95,7 @@ export default function ResumeSection() {
                   Download PDF
                 </a>
                 <a
-                  href="https://drive.google.com/file/d/1OOO6zi8kWjvAuuSPpozG4crjfaXY-Yhi/view"
+                  href="https://drive.google.com/file/d/179CrtSPyxAr8qP8aG4cexzbIqFkyCo6V/view?usp=drive_link"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`${siteTheme.btnSecondary} w-full text-center inline-flex items-center justify-center gap-2`}

@@ -24,7 +24,7 @@ Contact: ranveep097@gmail.com | Phone: +91 7033882318
 Website: ranveer.dev  
 GitHub: https://github.com/veer-debug (@veer-debug)  
 LinkedIn: https://www.linkedin.com/in/ranveer-kumar-12050a247/  
-Resume: https://drive.google.com/file/d/1OOO6zi8kWjvAuuSPpozG4crjfaXY-Yhi/view
+Resume: https://drive.google.com/file/d/179CrtSPyxAr8qP8aG4cexzbIqFkyCo6V/view?usp=drive_link
 
 Ranveer Kumar typically replies to email within 1–2 days.
 
